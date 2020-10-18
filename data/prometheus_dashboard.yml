@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'graftorio2'
+    orgId: 1
+    type: file
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards
+
