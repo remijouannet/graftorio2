@@ -204,7 +204,7 @@ function register_events()
         end
       end
 
-      game.write_file("graftorio/game.prom", prometheus.collect(), false)
+      game.write_file("graftorio2/game.prom", prometheus.collect(), false)
     end
   end)
 
