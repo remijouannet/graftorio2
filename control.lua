@@ -9,7 +9,7 @@ function split(inputstr, sep)
 end
 
 train_buckets = {}
-bucket_settings = split(settings.startup["graftorio-train-histogram-buckets"].value, ",")
+bucket_settings = split(settings.startup["graftorio2-train-histogram-buckets"].value, ",")
 for _, bucket in pairs(bucket_settings) do
   table.insert(train_buckets, tonumber(bucket))
 end
@@ -178,34 +178,32 @@ local function track_arrival(event)
 end
 
 function register_events()
-  script.on_event(defines.events.on_tick, function(event)
-    if event.tick % 600 == 0 then
-      gauge_tick:set(game.tick)
-      for _, player in pairs(game.players) do
-        stats = {
-          {player.force.item_production_statistics, gauge_item_production_input, gauge_item_production_output},
-          {player.force.fluid_production_statistics, gauge_fluid_production_input, gauge_fluid_production_output},
-          {player.force.kill_count_statistics, gauge_kill_count_input, gauge_kill_count_output},
-          {player.force.entity_build_count_statistics, gauge_entity_build_count_input, gauge_entity_build_count_output},
-        }
+  script.on_nth_tick(settings.startup["graftorio2-nth-tick"].value, function(event)
+    gauge_tick:set(game.tick)
+    for _, player in pairs(game.players) do
+      stats = {
+        {player.force.item_production_statistics, gauge_item_production_input, gauge_item_production_output},
+        {player.force.fluid_production_statistics, gauge_fluid_production_input, gauge_fluid_production_output},
+        {player.force.kill_count_statistics, gauge_kill_count_input, gauge_kill_count_output},
+        {player.force.entity_build_count_statistics, gauge_entity_build_count_input, gauge_entity_build_count_output},
+      }
 
-        for _, stat in pairs(stats) do
-          for name, n in pairs(stat[1].input_counts) do
-            stat[2]:set(n, {player.force.name, name})
-          end
-
-          for name, n in pairs(stat[1].output_counts) do
-            stat[3]:set(n, {player.force.name, name})
-          end
+      for _, stat in pairs(stats) do
+        for name, n in pairs(stat[1].input_counts) do
+          stat[2]:set(n, {player.force.name, name})
         end
 
-        for name, n in pairs(player.force.items_launched) do
-          gauge_items_launched:set(n, {player.force.name, name})
+        for name, n in pairs(stat[1].output_counts) do
+          stat[3]:set(n, {player.force.name, name})
         end
       end
 
-      game.write_file("graftorio2/game.prom", prometheus.collect(), false)
+      for name, n in pairs(player.force.items_launched) do
+        gauge_items_launched:set(n, {player.force.name, name})
+      end
     end
+
+    game.write_file("graftorio2/game.prom", prometheus.collect(), false)
   end)
 
   script.on_event(defines.events.on_train_changed_state, function(event)
