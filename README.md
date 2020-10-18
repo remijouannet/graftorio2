@@ -1,4 +1,6 @@
-# graftorio
+# graftorio2
+
+**Fork of [graftorio](https://github.com/afex/graftorio)**
 
 visualize metrics from your factorio game in grafana
 
@@ -12,7 +14,7 @@ in order to use graftorio, you need to run the grafana software and a database c
 
 ## Installation
 
-1. download the latest [release](https://github.com/afex/graftorio/releases), and extract it into the location you want to host the local database
+1. download the latest [release](https://github.com/remijouannet/graftorio2/releases), and extract it into the location you want to host the local database
 1. [install docker](https://docs.docker.com/install/)
    - if using windows, you will need to be running Windows 10 Pro
 1. if using macOS or Linux, open the extracted `docker-compose.yml` in a text editor and uncomment the correct path to your factorio install
