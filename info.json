@@ -1,10 +1,10 @@
 {
-  "name": "graftorio",
-  "version": "0.0.7",
-  "title": "graftorio",
-  "author": "afex",
+  "name": "graftorio2",
+  "version": "0.0.8",
+  "title": "graftorio2",
+  "author": "remijouannet",
   "description": "visualize metrics from your factorio game in grafana",
-  "homepage": "https://github.com/afex/graftorio",
-  "dependencies": ["base >= 0.17.35", "? YARM >= 0.7.305"],
-  "factorio_version": "0.17"
+  "homepage": "https://github.com/remijouannet/graftorio2",
+  "dependencies": ["? YARM >= 0.8.102"],
+  "factorio_version": "1.0.0"
 }
