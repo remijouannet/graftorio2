@@ -5,3 +5,4 @@ datasources:
     type: prometheus
     isDefault: true
     url: http://prometheus:9090
+    timeInterval: 10
