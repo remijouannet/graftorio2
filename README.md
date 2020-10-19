@@ -19,10 +19,9 @@ in order to use graftorio, you need to run the grafana software and a database c
    - if using windows, you will need to be running Windows 10 Pro
 1. if using macOS or Linux, open the extracted `docker-compose.yml` in a text editor and uncomment the correct path to your factorio install
 1. using a terminal, run `docker-compose up` inside the extracted directory
-1. load `localhost:3000` in a browser, you should see the grafana login screen
-1. login with admin:admin and create a prometheus data source using the exact string `http://prometheus:9090` as its address, and `10s` as the scrape interval. (don't forget the 's')
+1. load `localhost:3000` in a browser, don't need to login and prometheus is already the default datasource
 1. launch factorio
-1. install the "graftorio" mod via the mods menu
+1. install the "graftorio2" mod via the mods menu
 1. load up your game, and see your statistics in the grafana dashboard
    - [beginner instructions for building dashboards](https://youtu.be/sKNZMtoSHN4)
 
