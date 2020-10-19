@@ -1,3 +1,6 @@
+
+![](https://mods-data.factorio.com/assets/ad36f974db944b1540ce50a0aea46221f26f7c36.thumb.png)
+
 # graftorio2
 
 **Fork of [graftorio](https://github.com/afex/graftorio)**
