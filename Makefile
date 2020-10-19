@@ -1,6 +1,7 @@
 
 release:
-	mkdir pkg && \
+	mkdir -p pkg && \
+		rm ./pkg/*.zip && \
 		git archive --prefix=graftorio2/ -o pkg/graftorio2_0.0.8.zip HEAD
 
 install-darwin:
