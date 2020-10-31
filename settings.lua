@@ -10,7 +10,7 @@ data:extend({
       type = "int-setting",
       name = "graftorio2-nth-tick",
       setting_type = "startup",
-      default_value = "10",
+      default_value = "300",
       allow_blank = false
   }
 })
