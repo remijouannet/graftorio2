@@ -108,6 +108,10 @@ local function track_arrival(event)
 end
 
 function register_events_train()
+    if (event == nil or event.train == nil) then
+        return
+    end
+
     if event.train.state == defines.train_state.arrive_station then
         track_arrival(event)
     end
