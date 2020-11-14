@@ -2,3 +2,5 @@ data/grafana
 data/prometheus
 *.zip
 pkg/*.zip
+.DS_store
+pkg/
