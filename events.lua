@@ -1,5 +1,8 @@
 function register_events(event)
     gauge_tick:set(game.tick)
+    gauge_connected_player_count:set(#game.connected_players)
+    gauge_total_player_count:set(#game.players)
+
     for _, player in pairs(game.players) do
       stats = {
         {player.force.item_production_statistics, gauge_item_production_input, gauge_item_production_output},

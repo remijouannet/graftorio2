@@ -7,6 +7,8 @@ bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buc
 nth_tick = settings.startup["graftorio2-nth-tick"].value
 
 gauge_tick = prometheus.gauge("factorio_tick", "game tick")
+gauge_connected_player_count = prometheus.gauge("factorio_connected_player_count", "connected players")
+gauge_total_player_count = prometheus.gauge("factorio_total_player_count", "total registered players")
 
 gauge_item_production_input = prometheus.gauge("factorio_item_production_input", "items produced", {"force", "name"})
 gauge_item_production_output = prometheus.gauge("factorio_item_production_output", "items consumed", {"force", "name"})
@@ -45,11 +47,13 @@ script.on_init(function()
   end
 
   script.on_nth_tick(nth_tick, register_events)
+  script.on_event(defines.events.on_player_left_game, register_events)
   script.on_event(defines.events.on_train_changed_state, register_events_train)
 end)
 
 script.on_load(function()
   script.on_nth_tick(nth_tick, register_events)
+  script.on_event(defines.events.on_player_left_game, register_events)
   script.on_event(defines.events.on_train_changed_state, register_events_train)
 end)
 
