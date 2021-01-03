@@ -47,13 +47,25 @@ script.on_init(function()
   end
 
   script.on_nth_tick(nth_tick, register_events)
-  script.on_event(defines.events.on_player_left_game, register_events)
+
+  script.on_event(defines.events.on_player_joined_game, register_events_players)
+  script.on_event(defines.events.on_player_left_game, register_events_players)
+  script.on_event(defines.events.on_player_removed, register_events_players)
+  script.on_event(defines.events.on_player_kicked, register_events_players)
+  script.on_event(defines.events.on_player_banned, register_events_players)
+
   script.on_event(defines.events.on_train_changed_state, register_events_train)
 end)
 
 script.on_load(function()
   script.on_nth_tick(nth_tick, register_events)
-  script.on_event(defines.events.on_player_left_game, register_events)
+
+  script.on_event(defines.events.on_player_joined_game, register_events_players)
+  script.on_event(defines.events.on_player_left_game, register_events_players)
+  script.on_event(defines.events.on_player_removed, register_events_players)
+  script.on_event(defines.events.on_player_kicked, register_events_players)
+  script.on_event(defines.events.on_player_banned, register_events_players)
+
   script.on_event(defines.events.on_train_changed_state, register_events_train)
 end)
 
