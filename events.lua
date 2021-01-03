@@ -1,5 +1,6 @@
 function register_events(event)
     gauge_tick:set(game.tick)
+
     for _, player in pairs(game.players) do
       stats = {
         {player.force.item_production_statistics, gauge_item_production_input, gauge_item_production_output},
@@ -24,4 +25,9 @@ function register_events(event)
     end
 
     game.write_file("graftorio2/game.prom", prometheus.collect(), false)
+end
+
+function register_events_players(event)
+    gauge_connected_player_count:set(#game.connected_players)
+    gauge_total_player_count:set(#game.players)
 end
