@@ -6,7 +6,7 @@ services:
     volumes:
       - ~/Library/Application Support/factorio/script-output/graftorio2/:/textfiles # macOS
       # - ${APPDATA}\Factorio\script-output\graftorio2:/textfiles # Windows
-      # - /opt/factorio/script-output/graftorio2:/textfiles # Linux
+      #- ~/bin/factorio/script-output/graftorio2:/textfiles # Linux
     ports:
       - 9100
   prometheus:
