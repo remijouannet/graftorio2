@@ -198,6 +198,11 @@ function Gauge.new(name, help, labels)
     return obj
 end
 
+function Gauge:reset()
+    self.observations = {}
+    self.label_values = {}
+end
+
 function Gauge:inc(num, label_values)
     num = num or 1
     label_values = label_values or {}
