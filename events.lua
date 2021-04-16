@@ -22,6 +22,27 @@ function register_events(event)
       for name, n in pairs(player.force.items_launched) do
         gauge_items_launched:set(n, {player.force.name, name})
       end
+
+      gauge_logistic_network_all_logistic_robots:reset()
+      gauge_logistic_network_available_logistic_robots:reset()
+      gauge_logistic_network_all_construction_robots:reset()
+      gauge_logistic_network_available_construction_robots:reset()
+      gauge_logistic_network_robot_limit:reset()
+      gauge_logistic_network_items:reset()
+      for name, n in pairs(player.force.logistic_networks) do
+        for i in ipairs(n) do
+          gauge_logistic_network_all_logistic_robots:set(n[i].all_logistic_robots, {player.force.name, name, tostring(i)})
+          gauge_logistic_network_available_logistic_robots:set(n[i].available_logistic_robots, {player.force.name, name, tostring(i)})
+          gauge_logistic_network_all_construction_robots:set(n[i].all_construction_robots, {player.force.name, name, tostring(i)})
+          gauge_logistic_network_available_construction_robots:set(n[i].available_construction_robots, {player.force.name, name, tostring(i)})
+          gauge_logistic_network_robot_limit:set(n[i].robot_limit, {player.force.name, name, tostring(i)})
+          if n[i].get_contents() ~= nil then
+            for item, l in pairs(n[i].get_contents()) do
+              gauge_logistic_network_items:set(l, {player.force.name, name, tostring(i), item})
+            end
+          end
+        end
+      end
     end
 
     game.write_file("graftorio2/game.prom", prometheus.collect(), false)
