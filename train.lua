@@ -107,7 +107,7 @@ local function track_arrival(event)
   arrivals[event.train.path_end_stop.backer_name][1] = game.tick
 end
 
-function register_events_train()
+function register_events_train(event)
     if (event == nil or event.train == nil) then
         return
     end

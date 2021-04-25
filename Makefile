@@ -6,12 +6,12 @@ release:
 		git archive --prefix=graftorio2/ -o pkg/graftorio2_$(VERSION).zip HEAD
 
 install-darwin:
-	git archive --prefix=graftorio2/ -o graftorio2_$(VERSION).zip HEAD && \
-		mv graftorio2_$(VERSION).zip ~/Library/Application\ Support/factorio/mods/
+	cd ../ && zip --exclude="*.git*" -r graftorio2/graftorio2_$(VERSION).zip graftorio2 && \
+		mv graftorio2/graftorio2_$(VERSION).zip ~/Library/Application\ Support/factorio/mods/
 
 install-linux:
-	git archive --prefix=graftorio2/ -o graftorio2_$(VERSION).zip HEAD && \
-		mv graftorio2_$(VERSION).zip ~/bin/factorio/mods/
+	zip --exclude="*.git*" -r graftorio2_$(VERSION).zip ../graftorio2 && \
+		cp graftorio2_$(VERSION).zip ~/bin/factorio/mods/
 
 clean:
 	rm -rf ./data/prometheus && rm -rf ./data/grafana
