@@ -44,8 +44,11 @@ function register_events(event)
         end
       end
     end
-
-    game.write_file("graftorio2/game.prom", prometheus.collect(), false)
+    if server_save then
+        game.write_file("graftorio2/game.prom", prometheus.collect(), false, 0)
+    else
+        game.write_file("graftorio2/game.prom", prometheus.collect(), false)
+    end
 end
 
 function register_events_players(event)
