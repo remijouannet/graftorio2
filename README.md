@@ -6,6 +6,8 @@
 
 **Fork of [graftorio](https://github.com/afex/graftorio)**
 
+[中文文档](./README_cn.md)
+
 visualize metrics from your factorio game in grafana
 
 ![](https://mods-data.factorio.com/assets/89653f5de75cdb227b5140805d632faf41459eee.png)
