@@ -6,11 +6,11 @@ release:
 		git archive --prefix=graftorio2/ -o pkg/graftorio2_$(VERSION).zip HEAD
 
 install-darwin:
-	cd ../ && zip --exclude="*.git*" -r graftorio2/graftorio2_$(VERSION).zip graftorio2 && \
+	cd ../ && zip --exclude="*.git*" --exclude="*pkg*" -r graftorio2/graftorio2_$(VERSION).zip graftorio2 && \
 		mv graftorio2/graftorio2_$(VERSION).zip ~/Library/Application\ Support/factorio/mods/
 
 install-linux:
-	zip --exclude="*.git*" -r graftorio2_$(VERSION).zip ../graftorio2 && \
+	zip --exclude="*.git*" --exclude="*pkg*" -r graftorio2_$(VERSION).zip ../graftorio2 && \
 		cp graftorio2_$(VERSION).zip ~/bin/factorio/mods/
 
 clean:
