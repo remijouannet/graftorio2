@@ -2,6 +2,8 @@ prometheus = require("prometheus/prometheus")
 require("train")
 require("yarm")
 require("events")
+power = require("power")
+
 
 bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buckets"].value)
 nth_tick = settings.startup["graftorio2-nth-tick"].value
@@ -48,11 +50,16 @@ gauge_logistic_network_available_logistic_robots = prometheus.gauge("factorio_lo
 gauge_logistic_network_robot_limit = prometheus.gauge("factorio_logistic_network_robot_limit", "the maximum number of robots the network can work with", {"force", "location", "network"})
 gauge_logistic_network_items = prometheus.gauge("factorio_logistic_network_items", "the number of items in a logistic network", {"force", "location", "network", "name"})
 
+power_production_input = prometheus.gauge("factorio_power_production_input", "power produced", {"force", "name", "network", "surface"})
+power_production_output = prometheus.gauge("factorio_power_production_output", "power consumed", {"force", "name", "network", "surface"})
+
 script.on_init(function()
   if game.active_mods["YARM"] then
       script.on_event(remote.call("YARM", "get_on_site_updated_event_id"), handleYARM)
   end
 
+  power.on_init()
+
   script.on_nth_tick(nth_tick, register_events)
 
   script.on_event(defines.events.on_player_joined_game, register_events_players)
@@ -61,10 +68,25 @@ script.on_init(function()
   script.on_event(defines.events.on_player_kicked, register_events_players)
   script.on_event(defines.events.on_player_banned, register_events_players)
 
+  -- train envents
   script.on_event(defines.events.on_train_changed_state, register_events_train)
+
+  -- power events
+  script.on_event(defines.events.on_built_entity, power.on_build)
+  script.on_event(defines.events.on_robot_built_entity, power.on_build)
+  script.on_event(defines.events.script_raised_built, power.on_build)
+  script.on_event(defines.events.on_player_mined_entity, power.on_destroy)
+  script.on_event(defines.events.on_robot_mined_entity, power.on_destroy)
+  script.on_event(defines.events.on_entity_died, power.on_destroy)
+  script.on_event(defines.events.script_raised_destroy,  power.on_destroy)
+
 end)
 
+
+
 script.on_load(function()
+power.on_load()
+
   script.on_nth_tick(nth_tick, register_events)
 
   script.on_event(defines.events.on_player_joined_game, register_events_players)
@@ -73,7 +95,18 @@ script.on_load(function()
   script.on_event(defines.events.on_player_kicked, register_events_players)
   script.on_event(defines.events.on_player_banned, register_events_players)
 
+  -- train envents
   script.on_event(defines.events.on_train_changed_state, register_events_train)
+
+  -- power events
+  script.on_event(defines.events.on_built_entity, power.on_build)
+  script.on_event(defines.events.on_robot_built_entity, power.on_build)
+  script.on_event(defines.events.script_raised_built, power.on_build)
+  script.on_event(defines.events.on_player_mined_entity, power.on_destroy)
+  script.on_event(defines.events.on_robot_mined_entity, power.on_destroy)
+  script.on_event(defines.events.on_entity_died, power.on_destroy)
+  script.on_event(defines.events.script_raised_destroy,  power.on_destroy)
+
 end)
 
 script.on_configuration_changed(function(event)
