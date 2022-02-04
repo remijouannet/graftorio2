@@ -50,7 +50,7 @@ gauge_logistic_network_items = prometheus.gauge("factorio_logistic_network_items
 
 script.on_init(function()
   if game.active_mods["YARM"] then
-	global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
+    global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
     script.on_event(global.yarm_on_site_update_event_id, handleYARM)
   end
 
@@ -83,7 +83,7 @@ end)
 
 script.on_configuration_changed(function(event)
   if game.active_mods["YARM"] then
-	global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
+    global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
     script.on_event(global.yarm_on_site_update_event_id, handleYARM)
   end
 end)
