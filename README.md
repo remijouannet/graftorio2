@@ -51,3 +51,5 @@ to see if prometheus is scraping the data, load `localhost:9090/targets` in a br
 ### grafana
 
 to see if the grafana data source can read correctly, start a new dashboard and add a graph with the query `factorio_item_production_input`. the graph should render the total of every item produced in your game.
+
+

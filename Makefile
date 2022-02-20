@@ -1,3 +1,5 @@
+#factoriofast/bin/x64/factorio --graphics-quality low --video-memory-usage low --load-game factoriofast/saves/_autosave2.zip --threads 4
+
 VERSION=$$(git describe --abbrev=0 --tags)
 
 release:
