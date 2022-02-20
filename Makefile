@@ -10,8 +10,8 @@ install-darwin:
 		mv graftorio2/graftorio2_$(VERSION).zip ~/Library/Application\ Support/factorio/mods/
 
 install-linux:
-	zip --exclude="*.git*" --exclude="*pkg*" -r graftorio2_$(VERSION).zip ../graftorio2 && \
-		cp graftorio2_$(VERSION).zip ~/bin/factorio/mods/
+	cd ../ && zip --exclude="*.git*" --exclude="*pkg*" -r graftorio2/graftorio2_$(VERSION).zip graftorio2 && \
+		cp graftorio2/graftorio2_$(VERSION).zip ~/bin/factoriofast/mods/
 
 clean:
 	rm -rf ./data/prometheus && rm -rf ./data/grafana

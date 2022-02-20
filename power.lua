@@ -36,6 +36,7 @@ local function find_entity(unit_number, entity_type)
 end
 
 local function rescan_worlds()
+  print("rescan_worlds")
   local networks = script_data.networks
   local invalids = {}
   local remove = {}
@@ -89,112 +90,95 @@ local function get_ignored_networks_by_switches()
   return ignored
 end
 
-local lib = {
+function on_power_build(event)
+  local entity = event.entity or event.created_entity
+  if entity and entity.type == "electric-pole" then
+      if not script_data.networks[entity.electric_network_id] then
+      new_entity_entry(entity)
+      end
+  elseif entity and entity.type == "power-switch" then
+      script_data.switches[entity.unit_number] = 1
+      map[entity.unit_number] = entity
+  end
+end
 
-  on_build = function(event)
-    local entity = event.entity or event.created_entity
-    if entity and entity.type == "electric-pole" then
-        if not script_data.networks[entity.electric_network_id] then
-        new_entity_entry(entity)
-        end
-    elseif entity and entity.type == "power-switch" then
-        script_data.switches[entity.unit_number] = 1
-        map[entity.unit_number] = entity
-    end
-  end,
+function on_power_destroy(event)
+  local entity = event.entity
+  if entity.type == "electric-pole" then
+      local pos = entity.position
+      local max = entity.prototype and entity.prototype.max_wire_distance or game.max_electric_pole_connection_distance
+      local area = {{pos.x - max, pos.y - max}, {pos.x + max, pos.y + max}}
+      local surface = entity.surface
+      local networks = script_data.networks
+      local current_idx = entity.electric_network_id
+      -- Make sure to create the new network ids before collecting new info
+      if entity.neighbours.copper then
+      entity.disconnect_neighbour()
+      end
+      local finds = surface.find_entities_filtered({type = "electric-pole", area = area})
+      for _, new_entity in pairs(finds) do
+      if new_entity ~= entity then
+          if new_entity.electric_network_id == current_idx or not networks[new_entity.electric_network_id] then
+          -- here we need to add the new_entity
+          new_entity_entry(new_entity)
+          end
+      end
+      end
+  elseif entity.type == "power-switch" then
+      script_data.switches[entity.unit_number] = nil
+  end
 
-  on_destroy = function(event)
-    local entity = event.entity
-    if entity.type == "electric-pole" then
-        local pos = entity.position
-        local max = entity.prototype and entity.prototype.max_wire_distance or game.max_electric_pole_connection_distance
-        local area = {{pos.x - max, pos.y - max}, {pos.x + max, pos.y + max}}
-        local surface = entity.surface
-        local networks = script_data.networks
-        local current_idx = entity.electric_network_id
-        -- Make sure to create the new network ids before collecting new info
-        if entity.neighbours.copper then
-        entity.disconnect_neighbour()
-        end
-        local finds = surface.find_entities_filtered({type = "electric-pole", area = area})
-        for _, new_entity in pairs(finds) do
-        if new_entity ~= entity then
-            if new_entity.electric_network_id == current_idx or not networks[new_entity.electric_network_id] then
-            -- here we need to add the new_entity
-            new_entity_entry(new_entity)
-            end
-        end
-        end
-    elseif entity.type == "power-switch" then
-        script_data.switches[entity.unit_number] = nil
-    end
+  -- if some unexpected stuff occurs, try enabling rescan_worlds
+  -- rescan_worlds()
+end
 
-    -- if some unexpected stuff occurs, try enabling rescan_worlds
-    -- rescan_worlds()
-  end,
+function on_power_load()
+  script_data = global.power_data or script_data
+end
 
-  on_load = function()
-    script_data = global.power_data or script_data
-  end,
-  
-  on_init = function()
-    global.power_data = global.power_data or script_data
-  end,
-  
-  on_configuration_changed = function(event)
-    if global.power_data == nil then
-      global.power_data = script_data
-    end
+function on_power_init()
+  global.power_data = global.power_data or script_data
+end
 
-    if global.power_data.switches == nil then
-      global.power_data.switches = {}
-    end
-    -- Basicly only when first added or version changed
-    -- Power network is added in .10
-    if not script_data.has_checked then
-      -- scan worlds
+function on_power_tick(event)
+  if event.tick then
+  local ignored = get_ignored_networks_by_switches()
+
+  if not script_data.has_checked then
       rescan_worlds()
       script_data.has_checked = true
-    end
-  end,
+  end
 
-  on_tick = function(event)
-    if event.tick then
-    local ignored = get_ignored_networks_by_switches()
+  gauge_power_production_input:reset()
+  gauge_power_production_output:reset()
 
-    power_production_input:reset()
-    power_production_output:reset()
-
-    for idx, network in pairs(script_data.networks) do
-        -- reset old style in case it still is old
-        if network.entity then
-        network.entity_number = network.entity.unit_number
-        network.entity = nil
-        end
-        local entity = find_entity(network.entity_number, "electric-pole")
-        if not entity then
-        rescan_worlds()
-        entity = find_entity(network.entity_number, "electric-pole")
-        end
-        if entity and entity.valid and not ignored[entity.electric_network_id] and entity.electric_network_id == idx then
-        local force_name = entity.force.name
-        local surface_name = entity.surface.name
-        for name, n in pairs(entity.electric_network_statistics.input_counts) do
-            power_production_input:set(n, {force_name, name, idx, surface_name})
-        end
-        for name, n in pairs(entity.electric_network_statistics.output_counts) do
-            power_production_output:set(n, {force_name, name, idx, surface_name})
-        end
-        elseif entity and entity.valid and entity.electric_network_id ~= idx then
-        -- assume this network has been merged with some other so unset
-        script_data.networks[idx] = nil
-        elseif entity and not entity.valid then
-        -- Invalid  entity remove anyhow
-        script_data.networks[idx] = nil
-        end
-    end
-    end
-  end,
-}
-
-return lib
+  for idx, network in pairs(script_data.networks) do
+      -- reset old style in case it still is old
+      if network.entity then
+      network.entity_number = network.entity.unit_number
+      network.entity = nil
+      end
+      local entity = find_entity(network.entity_number, "electric-pole")
+      if not entity then
+      rescan_worlds()
+      entity = find_entity(network.entity_number, "electric-pole")
+      end
+      if entity and entity.valid and not ignored[entity.electric_network_id] and entity.electric_network_id == idx then
+      local force_name = entity.force.name
+      local surface_name = entity.surface.name
+      for name, n in pairs(entity.electric_network_statistics.input_counts) do
+          gauge_power_production_input:set(n, {force_name, name, idx, surface_name})
+      end
+      for name, n in pairs(entity.electric_network_statistics.output_counts) do
+          gauge_power_production_output:set(n, {force_name, name, idx, surface_name})
+      end
+      elseif entity and entity.valid and entity.electric_network_id ~= idx then
+      -- assume this network has been merged with some other so unset
+      script_data.networks[idx] = nil
+      elseif entity and not entity.valid then
+      -- Invalid  entity remove anyhow
+      script_data.networks[idx] = nil
+      end
+  end
+  end
+end
