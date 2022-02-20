@@ -55,7 +55,8 @@ power_production_output = prometheus.gauge("factorio_power_production_output", "
 
 script.on_init(function()
   if game.active_mods["YARM"] then
-      script.on_event(remote.call("YARM", "get_on_site_updated_event_id"), handleYARM)
+    global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
+    script.on_event(global.yarm_on_site_update_event_id, handleYARM)
   end
 
   power.on_init()
@@ -85,8 +86,13 @@ end)
 
 
 script.on_load(function()
-power.on_load()
-
+    
+  if global.yarm_on_site_update_event_id then
+    script.on_event(global.yarm_on_site_update_event_id, handleYARM)
+  end
+    
+  power.on_load()
+    
   script.on_nth_tick(nth_tick, register_events)
 
   script.on_event(defines.events.on_player_joined_game, register_events_players)
@@ -111,6 +117,7 @@ end)
 
 script.on_configuration_changed(function(event)
   if game.active_mods["YARM"] then
-      script.on_event(remote.call("YARM", "get_on_site_updated_event_id"), handleYARM)
+    global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
+    script.on_event(global.yarm_on_site_update_event_id, handleYARM)
   end
 end)
