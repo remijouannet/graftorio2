@@ -1,4 +1,4 @@
-#factoriofast/bin/x64/factorio --graphics-quality low --video-memory-usage low --load-game factoriofast/saves/_autosave2.zip --threads 4
+#factorio/bin/x64/factorio --graphics-quality low --video-memory-usage low --load-game factoriofast/saves/_autosave2.zip --threads 4
 
 VERSION=$$(git describe --abbrev=0 --tags)
 
@@ -13,7 +13,7 @@ install-darwin:
 
 install-linux:
 	cd ../ && zip --exclude="*.git*" --exclude="*pkg*" -r graftorio2/graftorio2_$(VERSION).zip graftorio2 && \
-		cp graftorio2/graftorio2_$(VERSION).zip ~/bin/factoriofast/mods/
+		cp graftorio2/graftorio2_$(VERSION).zip ~/bin/factorio/mods/
 
 clean:
 	rm -rf ./data/prometheus && rm -rf ./data/grafana
