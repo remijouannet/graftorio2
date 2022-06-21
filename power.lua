@@ -36,7 +36,6 @@ local function find_entity(unit_number, entity_type)
 end
 
 local function rescan_worlds()
-  print("rescan_worlds")
   local networks = script_data.networks
   local invalids = {}
   local remove = {}
@@ -133,52 +132,55 @@ function on_power_destroy(event)
 end
 
 function on_power_load()
-  script_data = global.power_data or script_data
+  script_data.has_checked = false
 end
 
 function on_power_init()
-  global.power_data = global.power_data or script_data
+  script_data.has_checked = false
 end
 
 function on_power_tick(event)
-  if event.tick then
-  local ignored = get_ignored_networks_by_switches()
+    if event.tick then
+        local ignored = get_ignored_networks_by_switches()
 
-  if not script_data.has_checked then
-      rescan_worlds()
-      script_data.has_checked = true
-  end
+        if not script_data.has_checked then
+            rescan_worlds()
+            script_data.has_checked = true
+        end
 
-  gauge_power_production_input:reset()
-  gauge_power_production_output:reset()
+        gauge_power_production_input:reset()
+        gauge_power_production_output:reset()
 
-  for idx, network in pairs(script_data.networks) do
-      -- reset old style in case it still is old
-      if network.entity then
-      network.entity_number = network.entity.unit_number
-      network.entity = nil
-      end
-      local entity = find_entity(network.entity_number, "electric-pole")
-      if not entity then
-      rescan_worlds()
-      entity = find_entity(network.entity_number, "electric-pole")
-      end
-      if entity and entity.valid and not ignored[entity.electric_network_id] and entity.electric_network_id == idx then
-      local force_name = entity.force.name
-      local surface_name = entity.surface.name
-      for name, n in pairs(entity.electric_network_statistics.input_counts) do
-          gauge_power_production_input:set(n, {force_name, name, idx, surface_name})
-      end
-      for name, n in pairs(entity.electric_network_statistics.output_counts) do
-          gauge_power_production_output:set(n, {force_name, name, idx, surface_name})
-      end
-      elseif entity and entity.valid and entity.electric_network_id ~= idx then
-      -- assume this network has been merged with some other so unset
-      script_data.networks[idx] = nil
-      elseif entity and not entity.valid then
-      -- Invalid  entity remove anyhow
-      script_data.networks[idx] = nil
-      end
-  end
-  end
+        for idx, network in pairs(script_data.networks) do
+            -- reset old style in case it still is old
+            if network.entity then
+                network.entity_number = network.entity.unit_number
+                network.entity = nil
+            end
+
+            local entity = find_entity(network.entity_number, "electric-pole")
+
+            if not entity then
+                rescan_worlds()
+                entity = find_entity(network.entity_number, "electric-pole")
+            end
+
+            if entity and entity.valid and not ignored[entity.electric_network_id] and entity.electric_network_id == idx then
+                local force_name = entity.force.name
+                local surface_name = entity.surface.name
+                for name, n in pairs(entity.electric_network_statistics.input_counts) do
+                    gauge_power_production_input:set(n, {force_name, name, idx, surface_name})
+                end
+                for name, n in pairs(entity.electric_network_statistics.output_counts) do
+                    gauge_power_production_output:set(n, {force_name, name, idx, surface_name})
+                end
+            elseif entity and entity.valid and entity.electric_network_id ~= idx then
+                -- assume this network has been merged with some other so unset
+                script_data.networks[idx] = nil
+            elseif entity and not entity.valid then
+                -- Invalid  entity remove anyhow
+                script_data.networks[idx] = nil
+            end
+        end
+    end
 end

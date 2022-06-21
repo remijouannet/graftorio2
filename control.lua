@@ -43,11 +43,14 @@ histogram_train_direct_loop_time = prometheus.histogram("factorio_train_direct_l
 gauge_train_arrival_time = prometheus.gauge("factorio_train_arrival_time", "train arrival time", {"station"})
 histogram_train_arrival_time = prometheus.histogram("factorio_train_arrival_time_groups", "train arrival time", {"station"}, bucket_settings)
 
-gauge_logistic_network_all_construction_robots = prometheus.gauge("factorio_logistic_network_all_construction_robots", "the number of construction robots available for a job", {"force", "location", "network"})
-gauge_logistic_network_available_construction_robots = prometheus.gauge("factorio_logistic_network_available_construction_robots", "the total number of construction robots in the network (idle and active + in roboports)", {"force", "location", "network"})
+gauge_logistic_network_all_construction_robots = prometheus.gauge("factorio_logistic_network_all_construction_robots", "the total number of construction robots in the network (idle and active + in roboports)", {"force", "location", "network"})
+gauge_logistic_network_available_construction_robots = prometheus.gauge("factorio_logistic_network_available_construction_robots", "the number of construction robots available for a job", {"force", "location", "network"})
+
 gauge_logistic_network_all_logistic_robots = prometheus.gauge("factorio_logistic_network_all_logistic_robots", "the total number of logistic robots in the network (idle and active + in roboports)", {"force", "location", "network"})
 gauge_logistic_network_available_logistic_robots = prometheus.gauge("factorio_logistic_network_available_logistic_robots", "the number of logistic robots available for a job", {"force", "location", "network"})
+
 gauge_logistic_network_robot_limit = prometheus.gauge("factorio_logistic_network_robot_limit", "the maximum number of robots the network can work with", {"force", "location", "network"})
+
 gauge_logistic_network_items = prometheus.gauge("factorio_logistic_network_items", "the number of items in a logistic network", {"force", "location", "network", "name"})
 
 gauge_power_production_input = prometheus.gauge("factorio_power_production_input", "power produced", {"force", "name", "network", "surface"})
@@ -88,7 +91,9 @@ end)
 script.on_load(function()
     
   if global.yarm_on_site_update_event_id then
-    script.on_event(global.yarm_on_site_update_event_id, handleYARM)
+    if script.get_event_handler(global.yarm_on_site_update_event_id) then
+        script.on_event(global.yarm_on_site_update_event_id, handleYARM)
+    end
   end
     
   on_power_load()
