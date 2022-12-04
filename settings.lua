@@ -19,5 +19,12 @@ data:extend({
       setting_type = "startup",
       default_value = false,
       allow_blank = false
+  },
+  {
+    type = "bool-setting",
+    name = "graftorio2-disable-train-stats",
+    setting_type = "startup",
+    default_value = false,
+    allow_blank = false
   }
 })
