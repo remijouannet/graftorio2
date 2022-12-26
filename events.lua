@@ -59,6 +59,19 @@ function register_events(event)
 				end
 			end
 		end
+
+                gauge_research_queue:reset()
+                local researched_queue = global.last_research and global.last_research["player.force.name"] or false
+                if researched_queue then
+                        gauge_research_queue:set(researched_queue.researched and 1 or 0, {player.force.name, researched_queue.name, researched_queue.level, -1})
+                end
+                
+                -- Levels dont get matched properly so store and save
+                local levels = {}
+                for idx, tech in pairs(player.force.research_queue or {player.force.current_research}) do
+                        levels[tech.name] = levels[tech.name] and levels[tech.name] + 1 or tech.level
+                        gauge_research_queue:set(idx == 1 and player.force.research_progress or 0, {player.force.name, tech.name, levels[tech.name], idx})
+                end
 	end
 
 	-- power tick handler

@@ -3,6 +3,7 @@ require("train")
 require("yarm")
 require("events")
 require("power")
+require("research")
 
 bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buckets"].value)
 nth_tick = settings.startup["graftorio2-nth-tick"].value
@@ -29,6 +30,9 @@ gauge_entity_build_count_input =
 	prometheus.gauge("factorio_entity_build_count_input", "entities placed", { "force", "name" })
 gauge_entity_build_count_output =
 	prometheus.gauge("factorio_entity_build_count_output", "entities removed", { "force", "name" })
+
+gauge_research_queue =
+        prometheus.gauge("factorio_research_queue", "research", {"force", "name", "level", "index"})
 
 gauge_items_launched =
 	prometheus.gauge("factorio_items_launched_total", "items launched in rockets", { "force", "name" })
@@ -140,6 +144,9 @@ script.on_init(function()
 	script.on_event(defines.events.on_robot_mined_entity, on_power_destroy)
 	script.on_event(defines.events.on_entity_died, on_power_destroy)
 	script.on_event(defines.events.script_raised_destroy, on_power_destroy)
+
+        -- research events
+        script.on_event(defines.events.on_research_finished, on_research_finished)
 end)
 
 script.on_load(function()
@@ -172,6 +179,9 @@ script.on_load(function()
 	script.on_event(defines.events.on_robot_mined_entity, on_power_destroy)
 	script.on_event(defines.events.on_entity_died, on_power_destroy)
 	script.on_event(defines.events.script_raised_destroy, on_power_destroy)
+
+        -- research events
+        script.on_event(defines.events.on_research_finished, on_research_finished)
 end)
 
 script.on_configuration_changed(function(event)
