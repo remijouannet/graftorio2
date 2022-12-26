@@ -11,6 +11,11 @@ function register_events(event)
 				gauge_entity_build_count_input,
 				gauge_entity_build_count_output,
 			},
+                        {
+                                game.pollution_statistics,
+                                gauge_pollution_production_input,
+                                gauge_pollution_production_output,
+                        },
 		}
 
 		for _, stat in pairs(stats) do

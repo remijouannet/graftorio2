@@ -31,6 +31,11 @@ gauge_entity_build_count_input =
 gauge_entity_build_count_output =
 	prometheus.gauge("factorio_entity_build_count_output", "entities removed", { "force", "name" })
 
+gauge_pollution_production_input =
+        prometheus.gauge("factorio_pollution_production_input", "pollutions produced", {"force", "name"})
+gauge_pollution_production_output =
+        prometheus.gauge("factorio_pollution_production_output", "pollutions consumed", {"force", "name"})
+
 gauge_research_queue =
         prometheus.gauge("factorio_research_queue", "research", {"force", "name", "level", "index"})
 
