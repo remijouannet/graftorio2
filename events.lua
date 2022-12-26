@@ -5,6 +5,10 @@ function register_events(event)
                 gauge_seed:set(surface.map_gen_settings.seed, {surface.name})
         end
 
+        for name, version in pairs(game.active_mods) do
+                gauge_mods:set(1, {name, version})
+        end
+
 	for _, player in pairs(game.players) do
 		stats = {
 			{ player.force.item_production_statistics, gauge_item_production_input, gauge_item_production_output },
