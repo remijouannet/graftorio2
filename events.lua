@@ -28,6 +28,17 @@ function register_events(event)
 			end
 		end
 
+                evolution = {
+                        {player.force.evolution_factor, "total"},
+                        {player.force.evolution_factor_by_pollution, "by_pollution"},
+                        {player.force.evolution_factor_by_time, "by_time"},
+                        {player.force.evolution_factor_by_killing_spawners, "by_killing_spawners"}
+                }
+
+                for _, stat in pairs(evolution) do
+                        gauge_evolution:set(stat[1], {player.force.name, stat[2]})
+                end
+
 		for name, n in pairs(player.force.items_launched) do
 			gauge_items_launched:set(n, { player.force.name, name })
 		end

@@ -36,6 +36,8 @@ gauge_pollution_production_input =
 gauge_pollution_production_output =
         prometheus.gauge("factorio_pollution_production_output", "pollutions consumed", {"force", "name"})
 
+gauge_evolution = prometheus.gauge("factorio_evolution", "evolution", {"force", "type"})
+
 gauge_research_queue =
         prometheus.gauge("factorio_research_queue", "research", {"force", "name", "level", "index"})
 
