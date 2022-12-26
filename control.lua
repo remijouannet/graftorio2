@@ -14,6 +14,8 @@ gauge_tick = prometheus.gauge("factorio_tick", "game tick")
 gauge_connected_player_count = prometheus.gauge("factorio_connected_player_count", "connected players")
 gauge_total_player_count = prometheus.gauge("factorio_total_player_count", "total registered players")
 
+gauge_seed = prometheus.gauge("factorio_seed", "seed", {"surface"})
+
 gauge_item_production_input = prometheus.gauge("factorio_item_production_input", "items produced", { "force", "name" })
 gauge_item_production_output =
 	prometheus.gauge("factorio_item_production_output", "items consumed", { "force", "name" })
