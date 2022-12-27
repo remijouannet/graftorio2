@@ -1,5 +1,7 @@
-data/grafana
-data/prometheus
+data/grafana/*
+data/prometheus/*
+!data/grafana/.gitkeep
+!data/prometheus/.gitkeep
 *.zip
 pkg/*.zip
 .DS_store

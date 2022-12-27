@@ -1,3 +1,4 @@
+---
 version: '3'
 services:
   exporter:
@@ -13,7 +14,7 @@ services:
     image: prom/prometheus
     volumes:
       - ./data/prometheus:/prometheus
-      - ./data/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
   grafana:
@@ -23,8 +24,8 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     volumes:
       - ./data/grafana:/var/lib/grafana
-      - ./data/prometheus_datasource.yml:/etc/grafana/provisioning/datasources/prometheus_datasource.yml
-      - ./data/prometheus_dashboard.yml:/etc/grafana/provisioning/dashboards/prometheus_dashboard.yml
-      - ./data/grafana_dashboard.json:/var/lib/grafana/dashboards/grafana_dashboard.json
+      - ./config/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./config/grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./config/grafana/dashboards/:/var/lib/grafana/dashboards/
     ports:
       - 3000:3000
