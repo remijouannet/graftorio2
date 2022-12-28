@@ -1,0 +1,751 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "default"
+      ],
+      "targetBlank": false,
+      "title": "Defaults",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "factorio"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Logistics",
+          "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Networks",
+          "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Items",
+          "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        }
+      ],
+      "panels": [],
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "gradient-gauge",
+            "filterable": false,
+            "inspect": false
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Logistics",
+              "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&var-Item=${__data.fields.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&var-Item=${__data.fields.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Logistic Networks",
+              "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Network:queryparam}&var-Item=${__data.fields.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Logistic Items",
+              "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&var-Item=${__data.fields.name}"
+            }
+          ],
+          "mappings": [],
+          "noValue": "no items",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "location"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "auto"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 200
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "auto"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "network"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "auto"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 25,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Logistics",
+          "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Networks",
+          "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Items",
+          "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        }
+      ],
+      "options": {
+        "footer": {
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "topk(25, factorio_logistic_network_items{force=~\"${Force}\",location=~\"${Surface}\",network=~\"${Network}\",name=~\"${Item}\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Top Total Items",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "force": true,
+              "instance": true,
+              "job": true,
+              "location": false
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Logistics",
+          "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Networks",
+          "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Items",
+          "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        }
+      ],
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "Default: Logistics",
+                  "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Item:queryparam}&var-Network=${Network}"
+                },
+                {
+                  "targetBlank": true,
+                  "title": "Rate: Storage",
+                  "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Item:queryparam}&var-Network=${Network}"
+                },
+                {
+                  "targetBlank": true,
+                  "title": "Misc: Logistic Networks",
+                  "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Item:queryparam}&var-Network=${Network}"
+                },
+                {
+                  "targetBlank": true,
+                  "title": "Misc: Logistic Items",
+                  "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Item:queryparam}&var-Network=${Network}"
+                }
+              ],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "text"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 0,
+            "y": 27
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Logistics",
+              "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Logistic Networks",
+              "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Network:queryparam}&${Item:queryparam}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Logistic Items",
+              "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+            }
+          ],
+          "maxPerRow": 12,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.2",
+          "repeat": "Network",
+          "repeatDirection": "h",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "sum(factorio_logistic_network_items{force=~\"${Force}\",location=~\"${Surface}\",network=\"${Network}\",name=~\"${Item}\"}) or on() vector(0)",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Network ${Network}",
+          "type": "stat"
+        }
+      ],
+      "title": "Network Items",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Logistics",
+          "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Networks",
+          "url": "/d/oRqZymynz?orgId=1&${__url_time_range}&${Network:queryparam}&${Item:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Logistic Items",
+          "url": "/d/C9cDwa37k?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Network:queryparam}&${Item:queryparam}"
+        }
+      ],
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "Default: Logistics",
+                  "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Item:queryparam}&var-Network=${Network}"
+                }
+              ],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "text"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 0,
+            "y": 40
+          },
+          "links": [],
+          "maxPerRow": 12,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.2",
+          "repeat": "Network",
+          "repeatDirection": "h",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "  sum(\r\n    factorio_logistic_network_all_construction_robots{force=~\"${Force}\",location=~\"${Surface}\",network=\"${Network}\"}\r\n  )\r\nor on ()\r\n  vector(0)",
+              "interval": "",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Network ${Network}",
+          "type": "stat"
+        }
+      ],
+      "title": "Network Construction Robots",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "Default: Logistics",
+                  "url": "/d/_bqLEhqnz?orgId=1&${__url_time_range}&${Force:queryparam}&${Surface:queryparam}&${Item:queryparam}&var-Network=${Network}"
+                }
+              ],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "text"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 0,
+            "y": 41
+          },
+          "maxPerRow": 12,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.2",
+          "repeat": "Network",
+          "repeatDirection": "h",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "  sum(\r\n    factorio_logistic_network_all_logistic_robots{force=~\"${Force}\",location=~\"${Surface}\",network=\"${Network}\"}\r\n  )\r\nor on ()\r\n  vector(0)",
+              "interval": "",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Network ${Network}",
+          "type": "stat"
+        }
+      ],
+      "title": "Network Logistic Robots",
+      "type": "row"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "factorio",
+    "default"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_logistic_network_robot_limit,force)",
+        "description": "Force",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Force",
+        "multi": true,
+        "name": "Force",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_logistic_network_robot_limit,force)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_logistic_network_robot_limit,location)",
+        "description": "Surface",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Surface",
+        "multi": true,
+        "name": "Surface",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_logistic_network_robot_limit,location)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_logistic_network_robot_limit{force=~\"${Force}\",location=~\"${Surface}\"},network)",
+        "description": "Network",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Network",
+        "multi": true,
+        "name": "Network",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_logistic_network_robot_limit{force=~\"${Force}\",location=~\"${Surface}\"},network)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_logistic_network_items{force=~\"${Force}\",location=~\"${Surface}\",network=~\"^${Network}\"} ,name)",
+        "description": "Item",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Item",
+        "multi": true,
+        "name": "Item",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_logistic_network_items{force=~\"${Force}\",location=~\"${Surface}\",network=~\"^${Network}\"} ,name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "1.7 - Default: Logistics",
+  "uid": "_bqLEhqnz",
+  "version": 1,
+  "weekStart": ""
+}

@@ -1,0 +1,861 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 2,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "default"
+      ],
+      "targetBlank": false,
+      "title": "Defaults",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "factorio"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Pollution production",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Pollution",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Pollution",
+              "url": "/d/py-GxV3nz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Consumer:queryparam}&var-Producer=${__series.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Pollution",
+              "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Consumer:queryparam}&var-Producer=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Pollution",
+          "url": "/d/py-GxV3nz?orgId=1&${__all_variables}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Pollution",
+          "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&${Consumer:queryparam}"
+        }
+      ],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(factorio_pollution_production_input{force=~\"${Force}\",name=~\"${Producer}\"}[$__rate_interval]) * ${TimeScale}",
+          "legendFormat": "{{name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Production",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Production consumption",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Pollution",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Pollution",
+              "url": "/d/py-GxV3nz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&var-Consumer=${__series.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Pollution",
+              "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&var-Consumer=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Pollution",
+          "url": "/d/py-GxV3nz?orgId=1&${__all_variables}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Pollution",
+          "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&${Consumer:queryparam}"
+        }
+      ],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(factorio_pollution_production_output{force=~\"${Force}\",name=~\"${Consumer}\"}[$__rate_interval]) * ${TimeScale}",
+          "legendFormat": "{{name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Consumption",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Overall produced pollution from ${helper_top_producer}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Pollution",
+              "url": "/d/py-GxV3nz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Consumer:queryparam}&var-Producer=${__series.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Pollution",
+              "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Consumer:queryparam}&var-Producer=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 0,
+        "y": 11
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Pollution",
+          "url": "/d/py-GxV3nz?orgId=1&${__all_variables}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Pollution",
+          "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&${Consumer:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "repeat": "helper_top_producer",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (name) (increase(factorio_pollution_production_input{force=~\"${Force}\",name=\"${helper_top_producer}\"}[$__range])) * ${TimeScale}",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "{{name}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "${helper_top_producer}",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Top pollution producer",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Pollution",
+              "url": "/d/py-GxV3nz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Consumer:queryparam}&var-Producer=${__series.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Pollution",
+              "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Consumer:queryparam}&var-Producer=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 10,
+        "x": 2,
+        "y": 11
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Pollution",
+          "url": "/d/py-GxV3nz?orgId=1&${__all_variables}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Pollution",
+          "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&${Consumer:queryparam}"
+        }
+      ],
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "topk(8,rate(factorio_pollution_production_input{force=~\"${Force}\",name=~\"${Producer}\"}[$__range])*${TimeScale})",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "{{name}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": " Production per ${TimeScale}",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Overall consumed pollution from ${helper_top_consumer}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Pollution",
+              "url": "/d/py-GxV3nz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&var-Consumer=${__series.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Pollution",
+              "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&var-Consumer=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 12,
+        "y": 11
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Pollution",
+          "url": "/d/py-GxV3nz?orgId=1&${__all_variables}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Pollution",
+          "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&${Consumer:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "repeat": "helper_top_consumer",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (name) (increase(factorio_pollution_production_output{force=~\"${Force}\",name=\"${helper_top_consumer}\"}[$__range])) * ${TimeScale}",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "{{name}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "${helper_top_consumer}",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Top pollution consumer",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Default: Pollution",
+              "url": "/d/py-GxV3nz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&var-Consumer=${__series.name}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Pollution",
+              "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&var-Consumer=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 10,
+        "x": 14,
+        "y": 11
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Default: Pollution",
+          "url": "/d/py-GxV3nz?orgId=1&${__all_variables}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Pollution",
+          "url": "/d/poz5ij5Vk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Producer:queryparam}&${Consumer:queryparam}"
+        }
+      ],
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "topk(8,rate(factorio_pollution_production_output{force=~\"${Force}\",name=~\"${Consumer}\"}[$__range]) * ${TimeScale})",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "{{name}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": " Consumption per ${TimeScale}",
+      "type": "bargauge"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "factorio",
+    "default"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Minute",
+          "value": "60"
+        },
+        "description": "TimeScale",
+        "hide": 0,
+        "includeAll": false,
+        "label": "TimeScale",
+        "multi": false,
+        "name": "TimeScale",
+        "options": [
+          {
+            "selected": false,
+            "text": "Second",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "Minute",
+            "value": "60"
+          },
+          {
+            "selected": false,
+            "text": "Hour",
+            "value": "3600"
+          }
+        ],
+        "query": "Second : 1, Minute : 60, Hour : 3600",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "player"
+          ],
+          "value": [
+            "player"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values({__name__=~\"factorio_pollution_production_input|factorio_pollution_production_output\"},force)",
+        "description": "Force",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Force",
+        "multi": true,
+        "name": "Force",
+        "options": [],
+        "query": {
+          "query": "label_values({__name__=~\"factorio_pollution_production_input|factorio_pollution_production_output\"},force)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_pollution_production_input{force=~\"${Force}\"},name)",
+        "description": "Producer",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Producer",
+        "multi": true,
+        "name": "Producer",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_pollution_production_input{force=~\"${Force}\"},name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_pollution_production_output{force=~\"${Force}\"},name)",
+        "description": "Consumer",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Consumer",
+        "multi": true,
+        "name": "Consumer",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_pollution_production_output{force=~\"${Force}\"},name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "query_result(topk(6,sum by (name) (rate(factorio_pollution_production_input{force=~\"${Force}\", name=~\"^${Producer}\"}[$__range]))))",
+        "description": "helper_top_producer",
+        "hide": 2,
+        "includeAll": true,
+        "label": "helper_top_producer",
+        "multi": true,
+        "name": "helper_top_producer",
+        "options": [],
+        "query": {
+          "query": "query_result(topk(6,sum by (name) (rate(factorio_pollution_production_input{force=~\"${Force}\", name=~\"^${Producer}\"}[$__range]))))",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/name=\"(.*)\"/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "query_result(topk(6,sum by (name) (rate(factorio_pollution_production_output{force=~\"${Force}\", name=~\"^${Consumer}\"}[$__range]))))",
+        "description": "helper_top_consumer",
+        "hide": 2,
+        "includeAll": true,
+        "label": "helper_top_consumer",
+        "multi": true,
+        "name": "helper_top_consumer",
+        "options": [],
+        "query": {
+          "query": "query_result(topk(6,sum by (name) (rate(factorio_pollution_production_output{force=~\"${Force}\", name=~\"^${Consumer}\"}[$__range]))))",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/name=\"(.*)\"/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "1.5 - Default: Pollution",
+  "uid": "py-GxV3nz",
+  "version": 1,
+  "weekStart": ""
+}
