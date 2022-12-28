@@ -131,6 +131,14 @@ script.on_init(function()
 		script.on_event(global.yarm_on_site_update_event_id, handleYARM)
 	end
 
+        for _, surface in pairs(game.surfaces) do
+                gauge_seed:set(surface.map_gen_settings.seed, {surface.name})
+        end
+
+        for name, version in pairs(game.active_mods) do
+                gauge_mods:set(1, {name, version})
+        end
+
 	on_power_init()
 
 	script.on_nth_tick(nth_tick, register_events)
@@ -165,14 +173,6 @@ script.on_load(function()
 			script.on_event(global.yarm_on_site_update_event_id, handleYARM)
 		end
 	end
-
-        for _, surface in pairs(game.surfaces) do
-                gauge_seed:set(surface.map_gen_settings.seed, {surface.name})
-        end
-
-        for name, version in pairs(game.active_mods) do
-                gauge_mods:set(1, {name, version})
-        end
 
 	on_power_load()
 

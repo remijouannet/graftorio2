@@ -75,10 +75,11 @@ function register_events(event)
 				end
 			end
 		end
-       end
+        end
 
         -- research tick handler
         on_research_tick(event)
+
 
 	-- power tick handler
 	on_power_tick(event)
