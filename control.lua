@@ -166,6 +166,14 @@ script.on_load(function()
 		end
 	end
 
+        for _, surface in pairs(game.surfaces) do
+                gauge_seed:set(surface.map_gen_settings.seed, {surface.name})
+        end
+
+        for name, version in pairs(game.active_mods) do
+                gauge_mods:set(1, {name, version})
+        end
+
 	on_power_load()
 
 	script.on_nth_tick(nth_tick, register_events)
