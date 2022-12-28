@@ -36,8 +36,6 @@ graftorio2 automates this process using docker, or you can set these up by hand.
 5. load `localhost:3000` in a browser, **you should login once and set a secure password!**
    - there is no need to configure anything:
    - Prometheus is already configured as default datasource
-   - but you may want to add the Grafana integrated dashboards to monitor your propmetheus backend or Grafana itself
-   - for that you just need to uncomment the nessesary lines from `config/Prometheus/Prometheus.yml`
 6. launch factorio
 7. install the "graftorio2" mod via the mods menu
 8. load up your game, and see your statistics in the Grafana dashboards
@@ -147,7 +145,7 @@ factorio_item_production_input{force="player",name="iron-chest"} 1
 ### Prometheus
 
 to see if Prometheus is scraping the data, load `localhost:9090/targets` in a browser and confirm that the status is "UP".  
-you should the the targets from `config/Prometheus/Prometheus.yml`.  
+you should see the target from `config/Prometheus/Prometheus.yml`.  
 
 ### Grafana
 

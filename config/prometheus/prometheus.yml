@@ -2,17 +2,6 @@
 ## scheme defaults to 'http'.
 
 scrape_configs:
-## prometheus itself
-#  - job_name: 'prometheus'
-#    static_configs:
-#      - targets: ['prometheus:9090']
-
-## grafana
-#  - job_name: 'grafana'
-#    static_configs:
-#      - targets: ['grafana:3000']
-
-# factorio-exporter
   - job_name: 'factorio-exporter'
     scrape_interval: 10s
     static_configs:
