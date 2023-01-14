@@ -1,0 +1,423 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 2,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "rate"
+      ],
+      "targetBlank": false,
+      "title": "Rates",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [
+        "factorio"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Entity killed",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": false,
+              "title": "Default: Kills",
+              "url": "/d/RA8BFSs7z?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Loss:queryparam}&var-Kill=${__series.name}"
+            },
+            {
+              "targetBlank": false,
+              "title": "Rate: Kills",
+              "url": "/d/ASS8DsF4k?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Loss:queryparam}&var-Kill=${__series.name}"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "links": [
+        {
+          "targetBlank": false,
+          "title": "Default: Kills",
+          "url": "/d/RA8BFSs7z?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": false,
+          "title": "Rate: Kills",
+          "url": "/d/ASS8DsF4k?orgId=1&${__all_variables}"
+        }
+      ],
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "exponent": 0.5,
+          "fill": "dark-orange",
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "RdYlBu",
+          "steps": 64
+        },
+        "exemplars": {
+          "color": "text"
+        },
+        "filterValues": {
+          "le": 0
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "tooltip": {
+          "show": true,
+          "yHistogram": true
+        },
+        "yAxis": {
+          "axisPlacement": "left",
+          "reverse": false
+        }
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(factorio_kill_count_input{force=~\"${Force}\",name=~\"${Kill}\"}[$__rate_interval]) * ${TimeScale}",
+          "format": "time_series",
+          "hide": false,
+          "legendFormat": "{{name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Kill",
+      "type": "heatmap"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Entity losses",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": false,
+              "title": "Default: Kills",
+              "url": "/d/RA8BFSs7z?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Kill:queryparam}&var-Loss=${__series.name}"
+            },
+            {
+              "targetBlank": false,
+              "title": "Rate: Kills",
+              "url": "/d/ASS8DsF4k?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&${Kill:queryparam}&var-Loss=${__series.name}"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "links": [
+        {
+          "targetBlank": false,
+          "title": "Default: Kills",
+          "url": "/d/RA8BFSs7z?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": false,
+          "title": "Rate: Kills",
+          "url": "/d/ASS8DsF4k?orgId=1&${__all_variables}"
+        }
+      ],
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "exponent": 0.5,
+          "fill": "dark-orange",
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "RdYlBu",
+          "steps": 64
+        },
+        "exemplars": {
+          "color": "text"
+        },
+        "filterValues": {
+          "le": 0
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "tooltip": {
+          "show": true,
+          "yHistogram": true
+        },
+        "yAxis": {
+          "axisPlacement": "left",
+          "reverse": false
+        }
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(factorio_kill_count_output{force=~\"${Force}\",name=~\"${Loss}\"}[$__rate_interval]) * ${TimeScale}",
+          "format": "time_series",
+          "hide": false,
+          "legendFormat": "{{name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Loss",
+      "type": "heatmap"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "factorio",
+    "rate"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Minute",
+          "value": "60"
+        },
+        "description": "TimeScale",
+        "hide": 0,
+        "includeAll": false,
+        "label": "TimeScale",
+        "multi": false,
+        "name": "TimeScale",
+        "options": [
+          {
+            "selected": false,
+            "text": "Second",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "Minute",
+            "value": "60"
+          },
+          {
+            "selected": false,
+            "text": "Hour",
+            "value": "3600"
+          }
+        ],
+        "query": "Second : 1, Minute : 60, Hour : 3600",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "player"
+          ],
+          "value": [
+            "player"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values({__name__=~\"factorio_kill_count_input|factorio_kill_count_output\"},force)",
+        "description": "Force",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Force",
+        "multi": true,
+        "name": "Force",
+        "options": [],
+        "query": {
+          "query": "label_values({__name__=~\"factorio_kill_count_input|factorio_kill_count_output\"},force)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_kill_count_input{force=~\"${Force}\"},name)",
+        "description": "Kill",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Kill",
+        "multi": true,
+        "name": "Kill",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_kill_count_input{force=~\"${Force}\"},name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": ".*-spawner|.*-worm-.*|.*-biter.*|.*-spitter.*",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_kill_count_output{force=~\"${Force}\"},name)",
+        "description": "Loss",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Loss",
+        "multi": true,
+        "name": "Loss",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_kill_count_output{force=~\"${Force}\"},name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "2.0.6 - Rate: Kills",
+  "uid": "ASS8DsF4k",
+  "version": 1,
+  "weekStart": ""
+}

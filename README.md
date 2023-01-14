@@ -121,13 +121,81 @@ whenever you want to run the game on a different server you would have to change
 3. the exporter needs to be accesible from the web, so that the Prometheus db can access it to load in the required data. more information for the exporter is found here https://github.com/Prometheus/node_exporter
 4. change over the `data/Prometheus.yml` to let the targets point to your exporters ip:port
 
-However when you want to separate this all, keep in mind that most of the default settings in this readme/repo are not correct.  
+however when you want to separate this all, keep in mind that most of the default settings in this readme/repo are not correct.  
 so these have to be changed to your needs.
 
 ### Finally
 
 open your http://domain.name and see the login for Grafana.
 keep in mind that this short guide doesn't explain on how to properly secure everything. this is up to you to fix yourself.
+
+## Dashboards
+
+this repository includes a variety of ready to use dashboards.  
+those dashboards are from [Kariton/graftorio2-dashboards](https://github.com/Kariton/graftorio2-dashboards).  
+the dashboards will be updated within this repostory if new versions are available.  
+
+all dashboards support a variety of different filters, panel links as well as data links.  
+for example: `Force`, `TimeScale`, `Network`, `Item / Fluid / Building / etc.`  
+  - Force: default `player` - some mods provide their own identifyer.
+  - TimeScale: default `Minute` - is used to calculate values per `Second / Minute / Hour`.
+  - Network: default `all` - depending on context the available networks like `electricity / logistic`.
+  - Item / Fluid / Building etc.: default `all` -  depending on context the available entities.
+
+
+### `Info` - overall stats
+  - UPS
+  - Game Time (Play Time)
+  - Total Players (unique players)
+  - Current online players
+  - Map Seed
+  - Installed mods
+  - Evolution
+  - Evolution Composition
+  - Current research progress
+  - research queue
+  - total rockets launched
+  - rockets per `TimeScale` based on last hour
+
+### `Items` - important items - delta production / consumption
+  - Science delta
+  - Circuits delta
+  - Materials delte (Iron, Copper, Plastic, Steel)
+  - Components delte (Battery, FRF, LDS, RCU, Rocket Fuel)
+
+### `Default` - rebuild of ingame graphs (as close as possible)
+  - 1.1 - Default: Electricity.json
+  - 1.2 - Default: Items.json
+  - 1.3 - Default: Fluids.json
+  - 1.4 - Default: Buildings.json
+  - 1.5 - Default: Pollution.json
+  - 1.6 - Default: Kills.json
+  - 1.7 - Default: Logistics.json
+
+### `Rate` - Various interpretation of "rate"
+  - 2.0.1 - Rate: Electricity.json
+  - 2.0.2 - Rate: Items.json
+  - 2.0.2.1 - Rate: Storage.json
+  - 2.0.2.2 - Rate: Science Packs.json
+  - 2.0.3 - Rate: Fluids.json
+  - 2.0.4 - Rate: Buildings.json
+  - 2.0.5 - Rate: Pollution.json
+  - 2.0.6 - Rate: Kills.json
+  - 2.0.7 - Rate: Evolution.json
+  - 2.0.8 - Rate: Research.json
+  - 2.0.9 - Rate: Rockets.json
+  - 2.1.0 - Rate: Players.json
+
+### `Misc` - detailed presentation in various forms
+  - 3.0.1 - Misc: Items.json
+  - 3.0.2 - Misc: Buildings.json
+  - 3.0.4 - Misc: Logistic Networks.json
+  - 3.0.4.1 - Misc: Logistic Items.json
+  - 3.0.4.2 - Misc: Robots.json
+  - 3.0.5 - Misc: Trains.json
+
+### `Mod` - dashboards dedicated to display mod related information
+  - 4.0.1 - Mod: YARM.json
 
 ## Debugging
 

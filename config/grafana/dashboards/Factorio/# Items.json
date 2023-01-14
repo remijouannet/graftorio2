@@ -1,0 +1,2864 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "limit": 100,
+        "name": "Annotations & Alerts",
+        "showIn": 0,
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "keepTime": true,
+      "tags": [
+        "rate"
+      ],
+      "targetBlank": false,
+      "title": "Rates",
+      "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "keepTime": true,
+      "tags": [
+        "factorio"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "type": "dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": [],
+      "title": "Science Rate / ${TimeScale}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=automation-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"automation-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "B",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"automation-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Red",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=logistic-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"logistic-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "C",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"logistic-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Green",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=military-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"military-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"military-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Black",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=chemical-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"chemical-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"chemical-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Blue",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=production-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 6
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"production-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "F",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"production-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Purple",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=utility-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 6
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"utility-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "G",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"utility-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Yellow",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Science Packs",
+              "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}&var-Science=space-science-pack"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 6
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Science Packs",
+          "url": "/d/Mx_n6ky7z?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"space-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "H",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"space-science-pack\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "White",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Progress of currently running research",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-YlBl"
+          },
+          "decimals": 2,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "",
+              "url": "/d/QH-4DM54k?orgId=1&${__url_time_range}&${Force:queryparam}&var-Index=${__field.labels.index}&&var-Research=${__field.labels.name}&var-Level=${__field.labels.level}"
+            }
+          ],
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 6
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Research",
+          "url": "/d/QH-4DM54k?orgId=1&${__url_time_range}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "factorio_research_queue{force=~\"${Force}\",index=\"1\",name=\"${helper_research_name}\",level=\"${helper_research_level}\"}",
+          "interval": "",
+          "legendFormat": "{{name}} {{level}}",
+          "range": true,
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Research",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "panels": [],
+      "title": "Circuit Rate / ${TimeScale}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=electronic-circuit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=electronic-circuit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=electronic-circuit"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 12
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"electronic-circuit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"electronic-circuit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "B",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Green",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=advanced-circuit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=advanced-circuit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=advanced-circuit"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 12
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"advanced-circuit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "B",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"advanced-circuit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Red",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=processing-unit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=processing-unit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=processing-unit"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 12
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"processing-unit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "C",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"processing-unit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Blue",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "panels": [],
+      "title": "Material Rate / ${TimeScale}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=iron-plate"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=iron-plate"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=iron-plate"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 18
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"iron-plate\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "B",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"iron-plate\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Iron",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=copper-plate"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=copper-plate"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=copper-plate"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 18
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"copper-plate\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"copper-plate\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "B",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Copper",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=plastic-bar"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=plastic-bar"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=plastic-bar"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 18
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"plastic-bar\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "D",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"plastic-bar\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Plastic",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=steel-plate"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=steel-plate"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=steel-plate"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 18
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"steel-plate\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "C",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"steel-plate\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Steel",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "panels": [],
+      "title": "Component Rate / ${TimeScale}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=battery"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=battery"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=battery"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)"
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 24
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"battery\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"battery\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Battery",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=flying-robot-frame"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=flying-robot-frame"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=flying-robot-frame"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)"
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 4,
+        "y": 24
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"flying-robot-frame\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"flying-robot-frame\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Flying Robot Frame",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=low-density-structure"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=low-density-structure"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=low-density-structure"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)"
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 9,
+        "y": 24
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"low-density-structure\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"low-density-structure\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Low Density Structure",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=rocket-control-unit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=rocket-control-unit"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=rocket-control-unit"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)"
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 14,
+        "y": 24
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"rocket-control-unit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"rocket-control-unit\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Rocket Control Unit",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "description": "Item production - consumption delta over ${TimeScale} seconds",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Rate: Items",
+              "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=rocket-fuel"
+            },
+            {
+              "targetBlank": true,
+              "title": "Rate: Storage",
+              "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=rocket-fuel"
+            },
+            {
+              "targetBlank": true,
+              "title": "Misc: Item",
+              "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${Force:queryparam}&${TimeScale:queryparam}&var-Item=rocket-fuel"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)"
+              },
+              {
+                "color": "red",
+                "value": -100000000000
+              },
+              {
+                "color": "yellow",
+                "value": -1
+              },
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 19,
+        "y": 24
+      },
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Rate: Items",
+          "url": "/d/wqp85Iynk?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Rate: Storage",
+          "url": "/d/wUtHfWenz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        },
+        {
+          "targetBlank": true,
+          "title": "Misc: Items",
+          "url": "/d/Yuvk0a4Mz?orgId=1&${__url_time_range}&${TimeScale:queryparam}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_output{name=\"rocket-fuel\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Consumption",
+          "range": true,
+          "refId": "E",
+          "target": "randomWalk('myName')"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "rate(factorio_item_production_input{name=\"rocket-fuel\"}[$__range]) * ${TimeScale}",
+          "interval": "",
+          "legendFormat": "Production",
+          "refId": "A",
+          "target": "randomWalk('myName')"
+        }
+      ],
+      "title": "Rocket Fuel",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Delta",
+            "binary": {
+              "left": "Production",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Consumption"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "factorio",
+    "rate"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Minute",
+          "value": "60"
+        },
+        "description": "TimeScale",
+        "hide": 0,
+        "includeAll": false,
+        "label": "TimeScale",
+        "multi": false,
+        "name": "TimeScale",
+        "options": [
+          {
+            "selected": false,
+            "text": "Second",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "Minute",
+            "value": "60"
+          },
+          {
+            "selected": false,
+            "text": "Hour",
+            "value": "3600"
+          }
+        ],
+        "query": "Second : 1, Minute : 60, Hour : 3600",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values({__name__=~\"factorio_research_queue\"},force)",
+        "description": "Force",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Force",
+        "multi": true,
+        "name": "Force",
+        "options": [],
+        "query": {
+          "query": "label_values({__name__=~\"factorio_research_queue\"},force)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "query_result(factorio_research_queue{index=\"1\"})",
+        "description": "helper_research_name",
+        "hide": 2,
+        "includeAll": false,
+        "label": "helper_research_name",
+        "multi": false,
+        "name": "helper_research_name",
+        "options": [],
+        "query": {
+          "query": "query_result(factorio_research_queue{index=\"1\"})",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/name=\"(.*)\"/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(factorio_research_queue{index=\"1\",name=\"${helper_research_name}\"},level)",
+        "description": "helper_research_level",
+        "hide": 2,
+        "includeAll": false,
+        "label": "helper_research_level",
+        "multi": false,
+        "name": "helper_research_level",
+        "options": [],
+        "query": {
+          "query": "label_values(factorio_research_queue{index=\"1\",name=\"${helper_research_name}\"},level)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 4,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "# Items",
+  "uid": "Ynvz0a4Mz",
+  "version": 1,
+  "weekStart": ""
+}
