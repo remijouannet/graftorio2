@@ -3,7 +3,7 @@ version: '3'
 services:
   exporter:
     image: prom/node-exporter
-    command: --collector.textfile.directory=/textfiles
+    command: --collector.disable-defaults --collector.textfile.directory=/textfiles 
     volumes:
       # - ~/Library/Application Support/factorio/script-output/graftorio2/:/textfiles # macOS
       # - ${APPDATA}\Factorio\script-output\graftorio2:/textfiles # Windows
