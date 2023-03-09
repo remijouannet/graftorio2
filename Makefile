@@ -3,6 +3,9 @@
 
 VERSION=$$(git describe --abbrev=0 --tags)
 
+stylua:
+	stylua -g '*.lua' -- .
+
 release:
 	mkdir -p pkg && \
 		rm -f ./pkg/*.zip && \
