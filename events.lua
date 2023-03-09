@@ -11,6 +11,11 @@ function register_events(event)
 				gauge_entity_build_count_input,
 				gauge_entity_build_count_output,
 			},
+                        {
+                                game.pollution_statistics,
+                                gauge_pollution_production_input,
+                                gauge_pollution_production_output,
+                        },
 		}
 
 		for _, stat in pairs(stats) do
@@ -22,6 +27,17 @@ function register_events(event)
 				stat[3]:set(n, { player.force.name, name })
 			end
 		end
+
+                evolution = {
+                        {player.force.evolution_factor, "total"},
+                        {player.force.evolution_factor_by_pollution, "by_pollution"},
+                        {player.force.evolution_factor_by_time, "by_time"},
+                        {player.force.evolution_factor_by_killing_spawners, "by_killing_spawners"}
+                }
+
+                for _, stat in pairs(evolution) do
+                        gauge_evolution:set(stat[1], {player.force.name, stat[2]})
+                end
 
 		for name, n in pairs(player.force.items_launched) do
 			gauge_items_launched:set(n, { player.force.name, name })
@@ -58,8 +74,12 @@ function register_events(event)
 					end
 				end
 			end
-		end
-	end
+	        end
+
+        -- research tick handler
+        on_research_tick(player, event)
+
+        end
 
 	-- power tick handler
 	on_power_tick(event)

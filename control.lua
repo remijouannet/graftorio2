@@ -3,6 +3,7 @@ require("train")
 require("yarm")
 require("events")
 require("power")
+require("research")
 
 bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buckets"].value)
 nth_tick = settings.startup["graftorio2-nth-tick"].value
@@ -12,6 +13,9 @@ disable_train_stats = settings.startup["graftorio2-disable-train-stats"].value
 gauge_tick = prometheus.gauge("factorio_tick", "game tick")
 gauge_connected_player_count = prometheus.gauge("factorio_connected_player_count", "connected players")
 gauge_total_player_count = prometheus.gauge("factorio_total_player_count", "total registered players")
+
+gauge_seed = prometheus.gauge("factorio_seed", "seed", {"surface"})
+gauge_mods = prometheus.gauge("factorio_mods", "mods", {"name", "version"})
 
 gauge_item_production_input = prometheus.gauge("factorio_item_production_input", "items produced", { "force", "name" })
 gauge_item_production_output =
@@ -29,6 +33,16 @@ gauge_entity_build_count_input =
 	prometheus.gauge("factorio_entity_build_count_input", "entities placed", { "force", "name" })
 gauge_entity_build_count_output =
 	prometheus.gauge("factorio_entity_build_count_output", "entities removed", { "force", "name" })
+
+gauge_pollution_production_input =
+        prometheus.gauge("factorio_pollution_production_input", "pollutions produced", {"force", "name"})
+gauge_pollution_production_output =
+        prometheus.gauge("factorio_pollution_production_output", "pollutions consumed", {"force", "name"})
+
+gauge_evolution = prometheus.gauge("factorio_evolution", "evolution", {"force", "type"})
+
+gauge_research_queue =
+        prometheus.gauge("factorio_research_queue", "research", {"force", "name", "level", "index"})
 
 gauge_items_launched =
 	prometheus.gauge("factorio_items_launched_total", "items launched in rockets", { "force", "name" })
@@ -117,6 +131,14 @@ script.on_init(function()
 		script.on_event(global.yarm_on_site_update_event_id, handleYARM)
 	end
 
+        for _, surface in pairs(game.surfaces) do
+                gauge_seed:set(surface.map_gen_settings.seed, {surface.name})
+        end
+
+        for name, version in pairs(game.active_mods) do
+                gauge_mods:set(1, {name, version})
+        end
+
 	on_power_init()
 
 	script.on_nth_tick(nth_tick, register_events)
@@ -140,6 +162,9 @@ script.on_init(function()
 	script.on_event(defines.events.on_robot_mined_entity, on_power_destroy)
 	script.on_event(defines.events.on_entity_died, on_power_destroy)
 	script.on_event(defines.events.script_raised_destroy, on_power_destroy)
+
+        -- research events
+        script.on_event(defines.events.on_research_finished, on_research_finished)
 end)
 
 script.on_load(function()
@@ -172,6 +197,9 @@ script.on_load(function()
 	script.on_event(defines.events.on_robot_mined_entity, on_power_destroy)
 	script.on_event(defines.events.on_entity_died, on_power_destroy)
 	script.on_event(defines.events.script_raised_destroy, on_power_destroy)
+
+        -- research events
+        script.on_event(defines.events.on_research_finished, on_research_finished)
 end)
 
 script.on_configuration_changed(function(event)
