@@ -8,7 +8,6 @@ require("research")
 bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buckets"].value)
 nth_tick = settings.startup["graftorio2-nth-tick"].value
 server_save = settings.startup["graftorio2-server-save"].value
-disable_train_stats = settings.startup["graftorio2-disable-train-stats"].value
 
 gauge_tick = prometheus.gauge("factorio_tick", "game tick")
 gauge_connected_player_count = prometheus.gauge("factorio_connected_player_count", "connected players")
@@ -140,7 +139,9 @@ script.on_init(function()
 	script.on_event(defines.events.on_player_kicked, register_events_players)
 	script.on_event(defines.events.on_player_banned, register_events_players)
 
+
 	-- train envents
+	disable_train_stats = settings.global["graftorio2-disable-train-stats"].value
 	if not disable_train_stats then
 		script.on_event(defines.events.on_train_changed_state, register_events_train)
 	end
@@ -176,6 +177,7 @@ script.on_load(function()
 	script.on_event(defines.events.on_player_banned, register_events_players)
 
 	-- train events
+	disable_train_stats = settings.global["graftorio2-disable-train-stats"].value
 	if not disable_train_stats then
 		script.on_event(defines.events.on_train_changed_state, register_events_train)
 	end
