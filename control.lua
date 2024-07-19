@@ -9,10 +9,24 @@ bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buc
 nth_tick = settings.startup["graftorio2-nth-tick"].value
 server_save = settings.startup["graftorio2-server-save"].value
 disable_train_stats = settings.startup["graftorio2-disable-train-stats"].value
+disable_per_player_stats = settings.startup["graftorio2-disable-per-player-stats"].value
 
 gauge_tick = prometheus.gauge("factorio_tick", "game tick")
 gauge_connected_player_count = prometheus.gauge("factorio_connected_player_count", "connected players")
 gauge_total_player_count = prometheus.gauge("factorio_total_player_count", "total registered players")
+
+gauge_player_connected =
+	prometheus.gauge("factorio_player_connected", "connected players by name", { "name" })
+gauge_player_last_online =
+	prometheus.gauge("factorio_player_last_online", "last tick the player was online", { "name" })
+gauge_player_time_online =
+	prometheus.gauge("factorio_player_time_online", "total seconds player spent online", { "name" })
+gauge_player_position_x =
+	prometheus.gauge("factorio_player_position_x", "x position of the player", { "name" })
+gauge_player_position_y =
+	prometheus.gauge("factorio_player_position_y", "y position of the player", { "name" })
+gauge_player_position_surface =
+	prometheus.gauge("factorio_player_position_surface", "player on surface", { "name", "surface" })
 
 gauge_seed = prometheus.gauge("factorio_seed", "seed", { "surface" })
 gauge_mods = prometheus.gauge("factorio_mods", "mods", { "name", "version" })
