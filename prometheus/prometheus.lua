@@ -73,6 +73,13 @@ local function register(collector)
 	return collector
 end
 
+local function unregister(collector)
+	local registry = get_registry()
+	Registry:unregister(collector)
+
+	return collector
+end
+
 local function register_callback(callback)
 	local registry = get_registry()
 	registry:register_callback(callback)
@@ -379,5 +386,6 @@ return {
 	collect = collect,
 	collect_http = collect_http,
 	clear = clear,
+	unregister = unregister,
 	init = init,
 }
