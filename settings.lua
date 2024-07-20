@@ -27,4 +27,11 @@ data:extend({
 		default_value = false,
 		allow_blank = false,
 	},
+	{
+		type = "bool-setting",
+		name = "graftorio2-enable-signal-groups",
+		setting_type = "startup",
+		default_value = false,
+		allow_blank = false,
+	},
 })

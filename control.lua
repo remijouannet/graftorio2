@@ -4,11 +4,14 @@ require("yarm")
 require("events")
 require("power")
 require("research")
+require("signals")
+require("signals-ui")
 
 bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buckets"].value)
 nth_tick = settings.startup["graftorio2-nth-tick"].value
 server_save = settings.startup["graftorio2-server-save"].value
 disable_train_stats = settings.startup["graftorio2-disable-train-stats"].value
+enable_signal_groups = settings.startup["graftorio2-enable-signal-groups"].value
 
 gauge_tick = prometheus.gauge("factorio_tick", "game tick")
 gauge_connected_player_count = prometheus.gauge("factorio_connected_player_count", "connected players")
@@ -132,6 +135,8 @@ script.on_init(function()
 
 	on_power_init()
 
+	on_signals_init()
+
 	script.on_nth_tick(nth_tick, register_events)
 
 	script.on_event(defines.events.on_player_joined_game, register_events_players)
@@ -167,6 +172,8 @@ script.on_load(function()
 
 	on_power_load()
 
+	on_signals_load()
+
 	script.on_nth_tick(nth_tick, register_events)
 
 	script.on_event(defines.events.on_player_joined_game, register_events_players)
@@ -199,3 +206,5 @@ script.on_configuration_changed(function(event)
 		script.on_event(global.yarm_on_site_update_event_id, handleYARM)
 	end
 end)
+
+add_signals_ui_event_handlers()

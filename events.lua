@@ -91,6 +91,9 @@ function register_events(event)
 	-- power tick handler
 	on_power_tick(event)
 
+	-- signal tick handler
+	on_signals_tick(event)
+
 	if server_save then
 		game.write_file("graftorio2/game.prom", prometheus.collect(), false, 0)
 	else
