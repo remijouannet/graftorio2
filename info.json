@@ -5,6 +5,6 @@
   "author": "remijouannet",
   "description": "visualize metrics from your factorio game in grafana",
   "homepage": "https://github.com/remijouannet/graftorio2",
-  "dependencies": ["? YARM >= 0.8.207"],
+  "dependencies": ["? YARM >= 0.8.207", "flib >= 0.14.1"],
   "factorio_version": "1.1"
 }

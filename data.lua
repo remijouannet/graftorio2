@@ -1,5 +1,7 @@
-local prometheusCombinatorItem = table.deepcopy(data.raw["item"]["constant-combinator"])
-local prometheusCombinatorEntity = table.deepcopy(data.raw["constant-combinator"]["constant-combinator"])
+local flib_table = require("__flib__.table")
+
+local prometheusCombinatorItem = flib_table.deep_copy(data.raw["item"]["constant-combinator"])
+local prometheusCombinatorEntity = flib_table.deep_copy(data.raw["constant-combinator"]["constant-combinator"])
 
 local prometheusCombinatorTint = { r = 0.5, g = 1, b = 0.7, a = 1 }
 
