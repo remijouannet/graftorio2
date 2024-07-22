@@ -170,6 +170,7 @@ local function open_prometheus_combinator_debug_gui(player)
     local global_combinators_scroll = global_combinators_content_list_frame.add { type = "scroll-pane", name = "global-combinators-scroll", horizontal_scroll_policy = "auto", vertical_scroll_policy = "always" }
     fill_global_combinators_container(global_combinators_scroll, global["signal-data"].combinators)
 
+    super_frame.force_auto_center()
     player.opened = super_frame
 end
 

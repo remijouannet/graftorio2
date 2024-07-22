@@ -60,6 +60,33 @@ local function load_metric(metric_name, metric_table)
     end
 end
 
+local function get_metric_names()
+    local stored_metrics = global["signal-data"]["metrics"]
+    local result = {}
+    for name, _ in pairs(stored_metrics) do
+        table.insert(result, name)
+    end
+    return result
+end
+
+local function get_group_names(metric_name)
+    local stored_combinators = global["signal-data"]["combinators"]
+    local matched = {} -- list of group names from matching metrics
+    local added_matched = {} -- map of group names to true if added to matched
+    for _, combinator in pairs(stored_combinators) do
+        local combinator_group = combinator.group
+        if added_matched[combinator_group] == nil then
+            local combinator_metric_name = combinator["metric-name"]
+            if metric_name == nil or combinator_metric_name == metric_name then
+                table.insert(matched, combinator_group)
+                added_matched[combinator_group] = true
+            end
+        end
+    end
+
+    return matched
+end
+
 local function get_metric_data(metric_name)
     local stored = global["signal-data"]["metrics"][metric_name]
     if stored ~= nil then
@@ -383,6 +410,8 @@ return {
     set_signal_combinator_entity = set_signal_combinator_entity,
     set_signal_combinator_data = set_signal_combinator_data,
     get_metric_data = get_metric_data,
+    get_metric_names = get_metric_names,
+    get_group_names = get_group_names,
     set_metric_data = set_metric_data,
     new_custom_metric = new_custom_metric,
     new_prometheus_combinator = new_prometheus_combinator,
