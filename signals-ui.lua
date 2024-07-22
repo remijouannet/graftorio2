@@ -1,5 +1,5 @@
 local logging = require("logging")
-require("signals")
+local signals = require("signals")
 
 local function validate_prometheus_combinator_gui_inputs(frame)
     local metric_name = frame["content"]["metric-name-flow"]["metric-name"].text
@@ -26,7 +26,7 @@ local function open_prometheus_combinator_gui(player, entity)
         player.gui.screen["prometheus-combinator-gui"].destroy()
     end
 
-    local stored_data = get_signal_combinator_data(entity.unit_number)
+    local stored_data = signals.get_signal_combinator_data(entity.unit_number)
     local stored_metric_name = ""
     local stored_entity = entity
     local stored_signal_filter = nil
@@ -101,20 +101,20 @@ local function apply_prometheus_combinator_gui_inputs(frame, entity)
 
     local signal_string = new_signal_filter and (new_signal_filter.type .. ":" .. new_signal_filter.name) or ""
     logging.debug_log("Applying settings to " .. unit_number .. ": name=" .. new_metric_name .. ", signal=" .. signal_string .. ", group=" .. new_group, logging.levels.debug, "signals")
-    local existing_combinator_table = get_signal_combinator_data(unit_number)
+    local existing_combinator_table = signals.get_signal_combinator_data(unit_number)
     if existing_combinator_table ~= nil then
         existing_combinator_table["metric-name"] = new_metric_name
         existing_combinator_table["signal-filter"] = new_signal_filter
         existing_combinator_table.group = new_group
-        set_signal_combinator_data(unit_number, existing_combinator_table)
+        signals.set_signal_combinator_data(unit_number, existing_combinator_table)
     else
-        set_signal_combinator_data(unit_number, {
+        signals.set_signal_combinator_data(unit_number, {
             ["metric-name"] = new_metric_name,
             ["signal-filter"] = new_signal_filter,
             group = new_group
         })
     end
-    new_custom_metric(new_metric_name)
+    signals.new_custom_metric(new_metric_name)
 end
 
 local function find_own_frame(element)
@@ -180,7 +180,7 @@ end
 
 function on_signals_gui_opened(event)
     if event.entity ~= nil and event.entity.name == "prometheus-combinator" then
-        new_prometheus_combinator(event.entity)
+        signals.new_prometheus_combinator(event.entity)
         open_prometheus_combinator_gui(game.players[event.player_index], event.entity)
     end
 end
