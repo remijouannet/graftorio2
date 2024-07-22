@@ -7,20 +7,28 @@ end
 
 local logs = {}
 
+local print_signal_debug = true
+local print_exporting_debug = false
+
 local function debug_print(text)
-    if game then
+    if print_signal_debug and game then
         while #logs > 0 do
-            game.print(table.remove(logs, 1), { skip = defines.print_skip.never })
+            local next_text = table.remove(logs,1)
+            log(next_text)
+            game.print(next_text, { skip = defines.print_skip.never })
         end
+        log(text)
         game.print(text, { skip = defines.print_skip.never })
-    else
+    elseif print_signal_debug then
         table.insert(logs, text)
     end
 end
 
 local function dump_logs()
     while #logs > 0 do
-        game.print(table.remove(logs, 1), { skip = defines.print_skip.never })
+        local next_text = table.remove(logs,1)
+        log(next_text)
+        game.print(next_text, { skip = defines.print_skip.never })
     end
 end
 
@@ -92,9 +100,9 @@ local function load_combinator(combinator_unit_number, combinator_table)
 end
 
 local function remove_combinator(combinator_unit_number)
-    debug_print("Removing "..tostring(combinator_unit_number))
+    debug_print("Removing " .. tostring(combinator_unit_number))
     set_signal_combinator_data(combinator_unit_number, nil)
-    debug_print("Removed "..tostring(combinator_unit_number))
+    debug_print("Removed " .. tostring(combinator_unit_number))
 end
 
 function on_signals_load()
@@ -141,6 +149,18 @@ function on_signals_load()
     end
 end
 
+function clean_invalid_prometheus_combinators()
+    local pending_removal_numbers = {}
+    for combinator_unit_number, combinator_table in pairs(global["signal-data"].combinators) do
+        if combinator_table.entity ~= nil and not combinator_table.entity.valid then
+            table.insert(pending_removal_numbers, combinator_unit_number)
+        end
+    end
+    for _,pending_removal_number in ipairs(pending_removal_numbers) do
+        remove_combinator(pending_removal_number)
+    end
+end
+
 function on_signals_tick(event)
     if not event.tick then
         return
@@ -149,36 +169,56 @@ function on_signals_tick(event)
 
     local pending_removals = {}
 
-    game.print("Starting signal processing", { skip = defines.print_skip.never })
+    if print_exporting_debug then
+        debug_print("Starting signal processing")
+    end
     for metric_name, metric_table in pairs(signal_metrics) do
         local prometheus_metric = metric_table["prometheus-metric"]
         prometheus_metric:reset()
-        game.print("Starting metric processing: \"" .. metric_name .. "\"", { skip = defines.print_skip.never })
+        if print_exporting_debug then
+            debug_print("Starting metric processing: \"" .. metric_name .. "\"")
+        end
         for group, group_table in pairs(metric_table.groups) do
-            game.print("Starting group processing: \"" .. group .. "\"", { skip = defines.print_skip.never })
+            if print_exporting_debug then
+                debug_print("Starting group processing: \"" .. group .. "\"")
+            end
             for combinator_unit_number, combinator_table in pairs(group_table) do
-                game.print("Starting combinator processing: " .. tostring(combinator_unit_number))
+                if print_exporting_debug then
+                    debug_print("Starting combinator processing: " .. tostring(combinator_unit_number))
+                end
                 local combinator_entity = combinator_table.entity
                 if combinator_entity ~= nil then
-                    game.print("Entity present", { skip = defines.print_skip.never })
+                    if print_exporting_debug then
+                        debug_print("Entity present")
+                    end
                     local signal_filter = combinator_table["signal-filter"]
                     if not combinator_entity.valid then
-                        game.print("Entity not valid", { skip = defines.print_skip.never })
+                        if print_exporting_debug then
+                            debug_print("Entity not valid")
+                        end
                         table.insert(pending_removals, combinator_unit_number)
                     else
                         if signal_filter ~= nil then
-                            game.print("Single filter", { skip = defines.print_skip.never })
+                            if print_exporting_debug then
+                                debug_print("Single filter")
+                            end
                             local value = combinator_entity.get_merged_signal(signal_filter)
-                            game.print("Inc[\"" .. group .. "\", " .. signal_filter.type .. ":" .. signal_filter.name .. "] by " .. tostring(value), { skip = defines.print_skip.never })
+                            if print_exporting_debug then
+                                debug_print("Inc[\"" .. group .. "\", " .. signal_filter.type .. ":" .. signal_filter.name .. "] by " .. tostring(value))
+                            end
                             prometheus_metric:inc(value, { group, signal_filter.type .. ":" .. signal_filter.name })
                         else
-                            game.print("No filter", { skip = defines.print_skip.never })
+                            if print_exporting_debug then
+                                debug_print("No filter")
+                            end
                             local values = combinator_entity.get_merged_signals()
                             if values ~= nil then
                                 for _, entry in ipairs(values) do
                                     local signal = entry.signal
                                     local value = entry.count
-                                    game.print("Inc[\"" .. group .. "\"" .. signal.type .. ":" .. signal.name .. "] by " .. tostring(value), { skip = defines.print_skip.never })
+                                    if print_exporting_debug then
+                                        debug_print("Inc[\"" .. group .. "\"" .. signal.type .. ":" .. signal.name .. "] by " .. tostring(value))
+                                    end
                                     prometheus_metric:inc(value, { group, signal.type .. ":" .. signal.name })
                                 end
                             end
@@ -192,7 +232,10 @@ function on_signals_tick(event)
         local next_removal = table.remove(pending_removals, 1)
         remove_combinator(next_removal)
     end
-    game.print("Done", { skip = defines.print_skip.never })
+    clean_invalid_prometheus_combinators()
+    if print_exporting_debug then
+        debug_print("Done")
+    end
 end
 
 function get_signal_combinator_data(unit_number)
@@ -220,25 +263,51 @@ function set_signal_combinator_entity(entity)
     end
 end
 
-local function unload_metric_if_empty(metric_name)
-    debug_print("Starting unload check for \"" .. metric_name .. "\"")
+local function unload_metric_if_empty(metric_name, remove_from_global)
+    if remove_from_global == nil then
+        remove_from_global = false
+    end
+    debug_print("Starting unload check for " .. metric_name)
     local loaded_metric = signal_metrics[metric_name]
-    if (loaded_metric ~= nil) and next(loaded_metric.groups) == nil then
+    if loaded_metric == nil then
+        debug_print("Metric not found")
+    elseif next(loaded_metric.groups) ~= nil then
+        debug_print("Group was not empty")
+    else
         debug_print("Metric exists and its groups are empty")
-        debug_print("Groups:")
-        for k,v in pairs(loaded_metric.groups) do
-            debug_print(tostring(k)..":"..tostring(v))
-        end
-        debug_print("Printed groups")
         local prometheus_metric = loaded_metric["prometheus-metric"]
         if prometheus_metric ~= nil then
             debug_print("Prometheus metric found, unregistering")
             prometheus.unregister(prometheus_metric)
             loaded_metric["prometheus-metric"] = nil
+            if remove_from_global then
+                set_metric_data(metric_name, nil)
+            end
         end
         signal_metrics[metric_name] = nil
-    else
-        debug_print("Metric not found or group was not empty")
+    end
+end
+
+-- cascade specifies how an empty group should propagate to the metric.
+-- cascade = 0: dont check if metric is empty
+-- cascade = 1 (default): check if metric is empty, unload if it is (dont influence global)
+-- cascade = 2: check if metric is empty, unload and remove it from global if it is
+local function unload_group_if_empty(metric_name, group_name, cascade)
+    if cascade == nil then
+        cascade = 1
+    end
+    debug_print("Starting unload check for "..metric_name.."/"..group_name)
+    local loaded_metric = signal_metrics[metric_name]
+    if loaded_metric ~= nil then
+        local group = loaded_metric.groups[group_name]
+        if group ~= nil then
+            if next(group) == nil then
+                loaded_metric.groups[group_name] = nil
+                if cascade > 0 then
+                    unload_metric_if_empty(metric_name, cascade > 1)
+                end
+            end
+        end
     end
 end
 
@@ -269,7 +338,7 @@ function set_signal_combinator_data(unit_number, data)
                     if old_signal_group_data[previous_group] ~= nil then
                         debug_print("Group found")
                         old_signal_group_data[previous_group][unit_number] = nil
-                        unload_metric_if_empty(previous_metric_name)
+                        unload_group_if_empty(previous_metric_name, previous_group, 2)
                     else
                         debug_print("Group not found")
                     end
@@ -296,9 +365,13 @@ function get_metric_data(metric_name)
 end
 
 function set_metric_data(metric_name, data)
-    local copy = flib_table.deep_copy(data)
-    global["signal-data"]["metrics"][metric_name] = copy
-    load_metric(metric_name, copy)
+    if data == nil then
+        global["signal-data"]["metrics"][metric_name] = nil
+    else
+        local copy = flib_table.deep_copy(data)
+        global["signal-data"]["metrics"][metric_name] = copy
+        load_metric(metric_name, copy)
+    end
 end
 
 function new_custom_metric(options)
@@ -326,3 +399,7 @@ function new_prometheus_combinator(entity)
         set_signal_combinator_entity(entity)
     end
 end
+
+return {
+    signal_metrics = signal_metrics,
+}

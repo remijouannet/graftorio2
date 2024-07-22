@@ -21,8 +21,8 @@ local function validate_prometheus_combinator_gui_inputs(frame)
 end
 
 local function open_prometheus_combinator_gui(player, entity)
-    if player.gui.center["prometheus-combinator-gui"] then
-        player.gui.center["prometheus-combinator-gui"].destroy()
+    if player.gui.screen["prometheus-combinator-gui"] then
+        player.gui.screen["prometheus-combinator-gui"].destroy()
     end
 
     local stored_data = get_signal_combinator_data(entity.unit_number)
@@ -42,7 +42,7 @@ local function open_prometheus_combinator_gui(player, entity)
         error("Unexpected unit_number for entity " .. tostring(entity.unit_number) .. ": " .. stored_entity.unit_number)
     end
 
-    local frame = player.gui.center.add { type = "frame", name = "prometheus-combinator-gui", direction = "vertical", caption = "Prometheus Combinator" }
+    local frame = player.gui.screen.add { type = "frame", name = "prometheus-combinator-gui", direction = "vertical", caption = "Prometheus Combinator" }
 
     frame.add {
         type = "label",
@@ -119,7 +119,9 @@ local function apply_prometheus_combinator_gui_inputs(frame, entity)
 end
 
 local function find_own_frame(element)
-    if element.parent ~= nil then
+    if element.name == "prometheus-combinator-gui" then
+        return element
+    elseif element.parent ~= nil then
         if element.parent.name == "prometheus-combinator-gui" then
             return element.parent
         elseif element.parent.parent ~= nil then
@@ -156,7 +158,7 @@ end
 
 function on_signals_gui_closed(event)
     local element = event.element
-    if element ~= nil and element.name == "prometheus-combinator-gui" then
+    if element ~= nil and element.valid and element.name == "prometheus-combinator-gui" then
         element.destroy()
     end
 end
@@ -182,12 +184,4 @@ function on_signals_gui_opened(event)
         new_prometheus_combinator(event.entity)
         open_prometheus_combinator_gui(game.players[event.player_index], event.entity)
     end
-end
-
-function add_signals_ui_event_handlers()
-    script.on_event(defines.events.on_gui_click, on_signals_gui_click)
-    script.on_event(defines.events.on_gui_closed, on_signals_gui_closed)
-    script.on_event(defines.events.on_gui_confirmed, on_signals_gui_confirmed)
-    script.on_event(defines.events.on_gui_text_changed, on_signals_gui_text_changed)
-    script.on_event(defines.events.on_gui_opened, on_signals_gui_opened)
 end

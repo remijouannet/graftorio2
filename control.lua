@@ -6,6 +6,7 @@ require("power")
 require("research")
 require("signals")
 require("signals-ui")
+require("signals-debug-ui")
 
 bucket_settings = train_buckets(settings.startup["graftorio2-train-histogram-buckets"].value)
 nth_tick = settings.startup["graftorio2-nth-tick"].value
@@ -161,6 +162,24 @@ script.on_init(function()
 
 	-- research events
 	script.on_event(defines.events.on_research_finished, on_research_finished)
+
+	-- ui events
+	script.on_event(defines.events.on_gui_closed, function(event)
+		on_signals_gui_closed(event)
+		on_signals_debug_gui_closed(event)
+	end)
+	script.on_event(defines.events.on_gui_click, function (event)
+		on_signals_gui_click(event)
+	end)
+	script.on_event(defines.events.on_gui_confirmed, function (event)
+		on_signals_gui_confirmed(event)
+	end)
+	script.on_event(defines.events.on_gui_text_changed, function (event)
+		on_signals_gui_text_changed(event)
+	end)
+	script.on_event(defines.events.on_gui_opened, function (event)
+		on_signals_gui_opened(event)
+	end)
 end)
 
 script.on_load(function()
@@ -198,6 +217,24 @@ script.on_load(function()
 
 	-- research events
 	script.on_event(defines.events.on_research_finished, on_research_finished)
+
+	-- ui events
+	script.on_event(defines.events.on_gui_closed, function(event)
+		on_signals_gui_closed(event)
+		on_signals_debug_gui_closed(event)
+	end)
+	script.on_event(defines.events.on_gui_click, function (event)
+		on_signals_gui_click(event)
+	end)
+	script.on_event(defines.events.on_gui_confirmed, function (event)
+		on_signals_gui_confirmed(event)
+	end)
+	script.on_event(defines.events.on_gui_text_changed, function (event)
+		on_signals_gui_text_changed(event)
+	end)
+	script.on_event(defines.events.on_gui_opened, function (event)
+		on_signals_gui_opened(event)
+	end)
 end)
 
 script.on_configuration_changed(function(event)
@@ -207,4 +244,4 @@ script.on_configuration_changed(function(event)
 	end
 end)
 
-add_signals_ui_event_handlers()
+add_signals_debug_ui_command()
