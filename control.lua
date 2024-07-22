@@ -1,4 +1,5 @@
 prometheus = require("prometheus/prometheus")
+local logging = require("logging")
 require("train")
 require("yarm")
 require("events")
@@ -129,6 +130,8 @@ gauge_power_production_output =
 	prometheus.gauge("factorio_power_production_output", "power consumed", { "force", "name", "network", "surface" })
 
 script.on_init(function()
+	logging.reload_settings()
+
 	if game.active_mods["YARM"] then
 		global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
 		script.on_event(global.yarm_on_site_update_event_id, handleYARM)
@@ -180,9 +183,13 @@ script.on_init(function()
 	script.on_event(defines.events.on_gui_opened, function (event)
 		on_signals_gui_opened(event)
 	end)
+	script.on_event(defines.events.on_runtime_mod_setting_changed, function (event)
+		logging.reload_settings()
+	end)
 end)
 
 script.on_load(function()
+	logging.reload_settings()
 	if global.yarm_on_site_update_event_id then
 		if script.get_event_handler(global.yarm_on_site_update_event_id) then
 			script.on_event(global.yarm_on_site_update_event_id, handleYARM)
@@ -235,9 +242,13 @@ script.on_load(function()
 	script.on_event(defines.events.on_gui_opened, function (event)
 		on_signals_gui_opened(event)
 	end)
+	script.on_event(defines.events.on_runtime_mod_setting_changed, function (event)
+		logging.reload_settings()
+	end)
 end)
 
 script.on_configuration_changed(function(event)
+	logging.reload_settings()
 	if game.active_mods["YARM"] then
 		global.yarm_on_site_update_event_id = remote.call("YARM", "get_on_site_updated_event_id")
 		script.on_event(global.yarm_on_site_update_event_id, handleYARM)

@@ -34,4 +34,12 @@ data:extend({
 		default_value = false,
 		allow_blank = false,
 	},
+	{
+		type = "string-setting",
+		name = "graftorio2-log-level",
+		setting_type = "runtime-global",
+		default_value = "info",
+		allow_blank = false,
+		allowed_values = { "info", "debug", "verbose", "trace" }
+	},
 })

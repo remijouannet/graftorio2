@@ -1,35 +1,13 @@
 local flib_table = require('__flib__.table')
 local prometheus = require("prometheus/prometheus")
 
+local logging = require("logging")
+
+local debug_log = logging.debug_log
+local log_levels = logging.levels
+
 function on_signals_init()
     -- global["signal-data"] is populated in migrations
-end
-
-local logs = {}
-
-local print_signal_debug = true
-local print_exporting_debug = false
-
-local function debug_print(text)
-    if print_signal_debug and game then
-        while #logs > 0 do
-            local next_text = table.remove(logs,1)
-            log(next_text)
-            game.print(next_text, { skip = defines.print_skip.never })
-        end
-        log(text)
-        game.print(text, { skip = defines.print_skip.never })
-    elseif print_signal_debug then
-        table.insert(logs, text)
-    end
-end
-
-local function dump_logs()
-    while #logs > 0 do
-        local next_text = table.remove(logs,1)
-        log(next_text)
-        game.print(next_text, { skip = defines.print_skip.never })
-    end
 end
 
 local signal_metrics = {}
@@ -65,7 +43,7 @@ local function load_metric(metric_name, metric_table)
         if metric_table ~= nil then
             previous_data.properties = metric_table
         end
-        debug_print("Loaded into existing metric \"" .. metric_name .. "\"")
+        debug_log("Loaded into existing metric \"" .. metric_name .. "\"", log_levels.verbose, "signals")
         return previous_data
     else
         if metric_table == nil then
@@ -77,7 +55,7 @@ local function load_metric(metric_name, metric_table)
             ["prometheus-metric"] = prometheus.gauge("factorio_custom_" .. metric_name, "Custom signal metric", shared_signal_metric_labels)
         }
         signal_metrics[metric_name] = new_data
-        debug_print("Loaded new metric \"" .. metric_name .. "\"")
+        debug_log("Loaded new metric \"" .. metric_name .. "\"", log_levels.verbose, "signals")
         return new_data
     end
 end
@@ -89,20 +67,20 @@ local function load_combinator(combinator_unit_number, combinator_table)
         local group = enable_signal_groups and combinator_table.group or ""
         local matching_group = loaded_metric.groups[group]
         if matching_group == nil then
-            debug_print("No matching group, creating new")
+            debug_log("No matching group, creating new", log_levels.verbose, "signals")
             matching_group = {}
             loaded_metric.groups[group] = matching_group
         end
         matching_group[combinator_unit_number] = combinator_table
-        debug_print("Added combinator " .. tostring(combinator_unit_number) .. " to group \"" .. group .. "\"")
+        debug_log("Added combinator " .. tostring(combinator_unit_number) .. " to group \"" .. group .. "\"", log_levels.verbose, "signals")
     end
-    debug_print("Loaded combinator " .. tostring(combinator_unit_number) .. " from global")
+    debug_log("Loaded combinator " .. tostring(combinator_unit_number) .. " from global", log_levels.verbose, "signals")
 end
 
 local function remove_combinator(combinator_unit_number)
-    debug_print("Removing " .. tostring(combinator_unit_number))
+    debug_log("Removing " .. tostring(combinator_unit_number), log_levels.verbose, "signals")
     set_signal_combinator_data(combinator_unit_number, nil)
-    debug_print("Removed " .. tostring(combinator_unit_number))
+    debug_log("Removed " .. tostring(combinator_unit_number), log_levels.verbose, "signals")
 end
 
 function on_signals_load()
@@ -138,6 +116,11 @@ function on_signals_load()
         }
     }
     --]]
+    debug_log("Pre load global", log_levels.verbose, "signals")
+    debug_log(serpent.block(global["signal-data"]), log_levels.verbose, "signals")
+    debug_log("Pre load metrics", log_levels.verbose, "signals")
+    debug_log(serpent.block(signal_metrics), log_levels.verbose, "signals")
+    debug_log("Beginning load", log_levels.verbose, "signals")
     if global["signal-data"] == nil then
         error("Could not find signal-data in global")
     end
@@ -147,6 +130,11 @@ function on_signals_load()
     for combinator_unit_number, combinator_table in pairs(global["signal-data"].combinators) do
         load_combinator(combinator_unit_number, combinator_table)
     end
+    debug_log("Post load global", log_levels.verbose, "signals")
+    debug_log(serpent.block(global["signal-data"]), log_levels.verbose, "signals")
+    debug_log("Post load metrics", log_levels.verbose, "signals")
+    debug_log(serpent.block(signal_metrics), log_levels.verbose, "signals")
+    debug_log("Finished loading", log_levels.verbose, "signals")
 end
 
 function clean_invalid_prometheus_combinators()
@@ -156,7 +144,7 @@ function clean_invalid_prometheus_combinators()
             table.insert(pending_removal_numbers, combinator_unit_number)
         end
     end
-    for _,pending_removal_number in ipairs(pending_removal_numbers) do
+    for _, pending_removal_number in ipairs(pending_removal_numbers) do
         remove_combinator(pending_removal_number)
     end
 end
@@ -165,60 +153,43 @@ function on_signals_tick(event)
     if not event.tick then
         return
     end
-    dump_logs()
 
     local pending_removals = {}
 
-    if print_exporting_debug then
-        debug_print("Starting signal processing")
-    end
+    debug_log("Before tick, global:", log_levels.trace, "signals")
+    debug_log(serpent.block(global["signal-data"]), log_levels.trace, "signals")
+    debug_log("Before tick, metrics:", log_levels.trace, "signals")
+    debug_log(serpent.block(signal_metrics), log_levels.trace, "signals")
+    debug_log("Starting signal processing", log_levels.trace, "signals")
     for metric_name, metric_table in pairs(signal_metrics) do
         local prometheus_metric = metric_table["prometheus-metric"]
         prometheus_metric:reset()
-        if print_exporting_debug then
-            debug_print("Starting metric processing: \"" .. metric_name .. "\"")
-        end
+        debug_log("Starting metric processing: \"" .. metric_name .. "\"", log_levels.trace, "signals")
         for group, group_table in pairs(metric_table.groups) do
-            if print_exporting_debug then
-                debug_print("Starting group processing: \"" .. group .. "\"")
-            end
+            debug_log("Starting group processing: \"" .. group .. "\"", log_levels.trace, "signals")
             for combinator_unit_number, combinator_table in pairs(group_table) do
-                if print_exporting_debug then
-                    debug_print("Starting combinator processing: " .. tostring(combinator_unit_number))
-                end
+                debug_log("Starting combinator processing: " .. tostring(combinator_unit_number), log_levels.trace, "signals")
                 local combinator_entity = combinator_table.entity
                 if combinator_entity ~= nil then
-                    if print_exporting_debug then
-                        debug_print("Entity present")
-                    end
+                    debug_log("Entity present", log_levels.trace, "signals")
                     local signal_filter = combinator_table["signal-filter"]
                     if not combinator_entity.valid then
-                        if print_exporting_debug then
-                            debug_print("Entity not valid")
-                        end
+                        debug_log("Entity not valid", log_levels.trace, "signals")
                         table.insert(pending_removals, combinator_unit_number)
                     else
                         if signal_filter ~= nil then
-                            if print_exporting_debug then
-                                debug_print("Single filter")
-                            end
+                            debug_log("Single filter", log_levels.trace, "signals")
                             local value = combinator_entity.get_merged_signal(signal_filter)
-                            if print_exporting_debug then
-                                debug_print("Inc[\"" .. group .. "\", " .. signal_filter.type .. ":" .. signal_filter.name .. "] by " .. tostring(value))
-                            end
+                            debug_log("Inc[\"" .. group .. "\", " .. signal_filter.type .. ":" .. signal_filter.name .. "] by " .. tostring(value), log_levels.trace, "signals")
                             prometheus_metric:inc(value, { group, signal_filter.type .. ":" .. signal_filter.name })
                         else
-                            if print_exporting_debug then
-                                debug_print("No filter")
-                            end
+                            debug_log("No filter", log_levels.trace, "signals")
                             local values = combinator_entity.get_merged_signals()
                             if values ~= nil then
                                 for _, entry in ipairs(values) do
                                     local signal = entry.signal
                                     local value = entry.count
-                                    if print_exporting_debug then
-                                        debug_print("Inc[\"" .. group .. "\"" .. signal.type .. ":" .. signal.name .. "] by " .. tostring(value))
-                                    end
+                                    debug_log("Inc[\"" .. group .. "\"" .. signal.type .. ":" .. signal.name .. "] by " .. tostring(value), log_levels.trace, "signals")
                                     prometheus_metric:inc(value, { group, signal.type .. ":" .. signal.name })
                                 end
                             end
@@ -233,9 +204,11 @@ function on_signals_tick(event)
         remove_combinator(next_removal)
     end
     clean_invalid_prometheus_combinators()
-    if print_exporting_debug then
-        debug_print("Done")
-    end
+    debug_log("After tick, global:", log_levels.trace, "signals")
+    debug_log(serpent.block(global["signal-data"]), log_levels.trace, "signals")
+    debug_log("After tick, metrics:", log_levels.trace, "signals")
+    debug_log(serpent.block(signal_metrics), log_levels.trace, "signals")
+    debug_log("Done", log_levels.trace, "signals")
 end
 
 function get_signal_combinator_data(unit_number)
@@ -267,17 +240,17 @@ local function unload_metric_if_empty(metric_name, remove_from_global)
     if remove_from_global == nil then
         remove_from_global = false
     end
-    debug_print("Starting unload check for " .. metric_name)
+    debug_log("Starting unload check for " .. metric_name, log_levels.verbose, "signals")
     local loaded_metric = signal_metrics[metric_name]
     if loaded_metric == nil then
-        debug_print("Metric not found")
+        debug_log("Metric not found", log_levels.verbose, "signals")
     elseif next(loaded_metric.groups) ~= nil then
-        debug_print("Group was not empty")
+        debug_log("Group was not empty", log_levels.verbose, "signals")
     else
-        debug_print("Metric exists and its groups are empty")
+        debug_log("Metric exists and its groups are empty", log_levels.verbose, "signals")
         local prometheus_metric = loaded_metric["prometheus-metric"]
         if prometheus_metric ~= nil then
-            debug_print("Prometheus metric found, unregistering")
+            debug_log("Prometheus metric found, unregistering", log_levels.verbose, "signals")
             prometheus.unregister(prometheus_metric)
             loaded_metric["prometheus-metric"] = nil
             if remove_from_global then
@@ -296,12 +269,13 @@ local function unload_group_if_empty(metric_name, group_name, cascade)
     if cascade == nil then
         cascade = 1
     end
-    debug_print("Starting unload check for "..metric_name.."/"..group_name)
+    debug_log("Starting unload check for " .. metric_name .. "/" .. group_name, log_levels.verbose, "signals")
     local loaded_metric = signal_metrics[metric_name]
     if loaded_metric ~= nil then
         local group = loaded_metric.groups[group_name]
         if group ~= nil then
             if next(group) == nil then
+                debug_log("Group empty: " .. metric_name .. "/" .. group_name .. ", unloading", log_levels.verbose, "signals")
                 loaded_metric.groups[group_name] = nil
                 if cascade > 0 then
                     unload_metric_if_empty(metric_name, cascade > 1)
@@ -321,32 +295,32 @@ function set_signal_combinator_data(unit_number, data)
         global["signal-data"]["combinators"][unit_number] = copy
     end
     if previous_global_data == nil then
-        debug_print("No previous combinator data")
+        debug_log("No previous combinator data", log_levels.verbose, "signals")
     else
         local previous_metric_name = previous_global_data["metric-name"]
         local previous_group = enable_signal_groups and previous_global_data.group or ""
         local next_group = enable_signal_groups and data ~= nil and data.group or ""
         if previous_metric_name == nil or previous_metric_name == "" then
-            debug_print("No previous metric name")
+            debug_log("No previous metric name", log_levels.verbose, "signals")
         else
-            debug_print("Previous metric name: \"" .. previous_metric_name .. "\"")
+            debug_log("Previous metric name: \"" .. previous_metric_name .. "\"", log_levels.verbose, "signals")
             if (data == nil or previous_metric_name ~= data["metric-name"]) or (previous_group ~= next_group and previous_group ~= nil and previous_group ~= "") then
-                debug_print("Previous stuff is different, remove from old group: \"" .. previous_metric_name .. "\"/\"" .. previous_group .. "\"")
+                debug_log("Previous path is different, remove from old group: \"" .. previous_metric_name .. "\"/\"" .. previous_group .. "\"", log_levels.verbose, "signals")
                 local old_signal_metric_data = signal_metrics[previous_metric_name]
                 if old_signal_metric_data ~= nil then
                     local old_signal_group_data = old_signal_metric_data.groups
                     if old_signal_group_data[previous_group] ~= nil then
-                        debug_print("Group found")
+                        debug_log("Group found", log_levels.verbose, "signals")
                         old_signal_group_data[previous_group][unit_number] = nil
                         unload_group_if_empty(previous_metric_name, previous_group, 2)
                     else
-                        debug_print("Group not found")
+                        debug_log("Group not found", log_levels.verbose, "signals")
                     end
                 else
-                    debug_print("Metric not found in signal_metrics")
+                    debug_log("Metric not found in signal_metrics", log_levels.verbose, "signals")
                 end
             else
-                debug_print("Metric name same and group same / was nil")
+                debug_log("Metric name same and group same / was nil", log_levels.verbose, "signals")
             end
         end
     end

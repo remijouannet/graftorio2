@@ -1,3 +1,4 @@
+local logging = require("logging")
 require("signals")
 
 local function validate_prometheus_combinator_gui_inputs(frame)
@@ -33,7 +34,6 @@ local function open_prometheus_combinator_gui(player, entity)
     if stored_data ~= nil then
         stored_metric_name = stored_data["metric-name"] or ""
         stored_signal_filter = stored_data["signal-filter"]
-        game.print("Stored signal filter "..(stored_signal_filter and stored_signal_filter.name or "nil"))
         stored_group = stored_data["group"] or ""
         stored_entity = stored_data["entity"] or entity
     end
@@ -64,7 +64,6 @@ local function open_prometheus_combinator_gui(player, entity)
 
     local specific_signal_container = content_frame.add { type = "flow", name = "specific-signal-container", direction = "horizontal" }
     specific_signal_container.add { type = "label", caption = "Specific signal", tooltip = "If no filter is specified, ALL signals will be exported" }
-    game.print("Applied signal filter "..(stored_signal_filter and stored_signal_filter.name or "nil"))
     local filter_button = specific_signal_container.add { type = "choose-elem-button", name = "specific-signal", elem_type = "signal" }
 
     filter_button.elem_value = stored_signal_filter
@@ -101,7 +100,7 @@ local function apply_prometheus_combinator_gui_inputs(frame, entity)
     local new_group = frame["content"]["group-container"]["group-name"].text
 
     local signal_string = new_signal_filter and (new_signal_filter.type .. ":" .. new_signal_filter.name) or ""
-    game.print("Applying settings to " .. unit_number .. ": name=" .. new_metric_name .. ", signal=" .. signal_string .. ", group=" .. new_group)
+    logging.debug_log("Applying settings to " .. unit_number .. ": name=" .. new_metric_name .. ", signal=" .. signal_string .. ", group=" .. new_group, logging.levels.debug, "signals")
     local existing_combinator_table = get_signal_combinator_data(unit_number)
     if existing_combinator_table ~= nil then
         existing_combinator_table["metric-name"] = new_metric_name
