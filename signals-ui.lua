@@ -139,14 +139,14 @@ local function update_prometheus_combinator_gui(frame)
     local metric_name_valid = false
 
     if metric_name == "" or not metric_name then
-        frame["content"]["metric-name-error"].caption = "Metric name must not be empty"
+        frame["content"]["metric-name-error"].caption = { "graftorio2-signals-gui.error-configuration-metric-name-empty" }
     else
         local metric_name_regex_match = string.match(metric_name, "^[a-zA-Z0-9_]+$")
         if metric_name_regex_match then
             metric_name_valid = true
             frame["content"]["metric-name-error"].caption = ""
         else
-            frame["content"]["metric-name-error"].caption = "Invalid input. Only alphanumeric characters and underscores are allowed."
+            frame["content"]["metric-name-error"].caption = { "graftorio2-signals-gui.error-configuration-metric-name-invalid" }
         end
     end
     frame["content"]["metric-name-error"].visible = not metric_name_valid
@@ -176,7 +176,7 @@ local function open_prometheus_combinator_gui(player, entity)
         error("Unexpected unit_number for entity " .. tostring(entity.unit_number) .. ": " .. stored_entity.unit_number)
     end
 
-    local frame = player.gui.screen.add { type = "frame", name = "prometheus-combinator-gui", direction = "vertical", caption = "Prometheus Combinator" }
+    local frame = player.gui.screen.add { type = "frame", name = "prometheus-combinator-gui", direction = "vertical", caption = { "graftorio2-signals-gui.configuration-title" } }
 
     frame.add {
         type = "label",
@@ -187,35 +187,35 @@ local function open_prometheus_combinator_gui(player, entity)
 
     local content_frame = frame.add { type = "frame", name = "content", direction = "vertical" }
 
-    content_frame.add { type = "label", caption = "Configure metric" }
+    content_frame.add { type = "label", caption = { "graftorio2-signals-gui.configuration-content-caption" } }
     local metric_name_container = content_frame.add { type = "flow", name = "metric-name-flow" }
 
-    metric_name_container.add { type = "label", caption = "Metric name", name = "metric-name-caption", tooltip = "Actual metric name will be \"factorio_custom_{name}\"" }
-    metric_name_container.add { type = "textfield", name = "metric-name", text = stored_metric_name, tooltip = "Right-click to toggle between free input and drop-down" }
+    metric_name_container.add { type = "label", caption = { "graftorio2-signals-gui.configuration-metric-name-caption" }, name = "metric-name-caption", tooltip = { "graftorio2-signals-gui.configuration-metric-name-prefix-note" } }
+    metric_name_container.add { type = "textfield", name = "metric-name", text = stored_metric_name, tooltip = { "graftorio2-signals-gui.configuration-metric-name-toggle-type" } }
     local metric_name_error = content_frame.add { type = "label", name = "metric-name-error", caption = "", style = "invalid_label" }
 
     metric_name_error.visible = metric_name_error.caption ~= ""
 
     local specific_signal_container = content_frame.add { type = "flow", name = "specific-signal-container", direction = "horizontal" }
-    specific_signal_container.add { type = "label", caption = "Specific signal", tooltip = "If no filter is specified, ALL signals will be exported" }
+    specific_signal_container.add { type = "label", caption = "Specific signal", tooltip = { "graftorio2-signals-gui.configuration-signal-empty-all-exported" } }
     local filter_button = specific_signal_container.add { type = "choose-elem-button", name = "specific-signal", elem_type = "signal" }
 
     filter_button.elem_value = stored_signal_filter
 
     local signal_group_container = content_frame.add { type = "flow", name = "group-container", direction = "horizontal" }
-    signal_group_container.add { type = "label", name = "group-name-label", caption = "Group name" }
+    signal_group_container.add { type = "label", name = "group-name-label", caption = { "graftorio2-signals-gui.configuration-group-name-caption" } }
     local signal_group_textfield = signal_group_container.add { type = "textfield", name = "group-name", text = stored_group, tooltip = "Right-click to toggle between free input and drop-down" }
 
     signal_group_container.enabled = enable_signal_groups
     signal_group_textfield.enabled = enable_signal_groups
     -- only disable to retain group-information even when disabled
     if not enable_signal_groups then
-        signal_group_textfield.tooltip = "Disabled in mod settings"
+        signal_group_textfield.tooltip = { "graftorio2-signals-gui.configuration-group-setting-disabled" }
     end
 
     local apply_button_flow = content_frame.add { type = "flow", name = "apply-button-flow", direction = "horizontal" }
-    apply_button_flow.add { type = "button", name = "cancel-button", caption = "Cancel", style = "red_button" }
-    apply_button_flow.add { type = "button", name = "apply-button", caption = "Apply", style = "confirm_button", enabled = false }
+    apply_button_flow.add { type = "button", name = "cancel-button", caption = { "?", { "graftorio2-signals-gui.configuration-cancel" }, { "gui.close" }, "Cancel" }, style = "red_button" }
+    apply_button_flow.add { type = "button", name = "apply-button", caption = { "?", { "graftorio2-signals-gui.configuration-apply" }, { "gui.save" }, "Apply" }, style = "confirm_button", enabled = false }
     update_prometheus_combinator_gui(frame)
     frame.force_auto_center()
     player.opened = frame
