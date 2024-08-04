@@ -129,6 +129,10 @@ so these have to be changed to your needs.
 open your http://domain.name and see the login for Grafana.
 keep in mind that this short guide doesn't explain on how to properly secure everything. this is up to you to fix yourself.
 
+## Metrics
+
+The list of currently included metrics can be found in [Metrics.md](Metrics.md).
+
 ## Dashboards
 
 this repository includes a variety of ready to use dashboards.  
