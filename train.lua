@@ -5,6 +5,7 @@ function train_buckets(bucket_settings)
 	for _, bucket in pairs(split(bucket_settings, ",")) do
 		table.insert(train_buckets, tonumber(bucket))
 	end
+	return train_buckets
 end
 
 local train_trips = {}
