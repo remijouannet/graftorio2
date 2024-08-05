@@ -27,4 +27,11 @@ data:extend({
 		default_value = false,
 		allow_blank = false,
 	},
+	{
+		type = "bool-setting",
+		name = "graftorio2-disable-per-player-stats",
+		setting_type = "startup",
+		default_value = true,
+		allow_blank = false,
+	},
 })

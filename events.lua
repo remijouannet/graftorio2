@@ -9,6 +9,10 @@ function register_events(event)
 		gauge_mods:set(1, { name, version })
 	end
 
+	gauge_player_position_x:reset()
+	gauge_player_position_y:reset()
+	gauge_player_position_surface:reset()
+
 	for _, player in pairs(game.players) do
 		stats = {
 			{ player.force.item_production_statistics, gauge_item_production_input, gauge_item_production_output },
@@ -84,6 +88,14 @@ function register_events(event)
 			end
 		end
 
+		if not disable_per_player_stats then
+			gauge_player_last_online:set(player.last_online, { player.name })
+			gauge_player_time_online:set(player.online_time / 60, { player.name })
+			gauge_player_position_x:set(player.position.x, { player.name })
+			gauge_player_position_y:set(player.position.y, { player.name })
+			gauge_player_position_surface:set(1, { player.name, player.surface.name })
+		end
+
 		-- research tick handler
 		on_research_tick(player, event)
 	end
@@ -101,4 +113,10 @@ end
 function register_events_players(event)
 	gauge_connected_player_count:set(#game.connected_players)
 	gauge_total_player_count:set(#game.players)
+	if not disable_per_player_stats then
+		gauge_player_connected:reset()
+		for _, player in pairs(game.connected_players) do
+			gauge_player_connected:set(player.connected and 1 or 0, { player.name })
+		end
+	end
 end
