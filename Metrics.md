@@ -16,10 +16,18 @@ Please read the warning regarding the cardinality of train metrics!
 
 ### Players
 
-| Name                              | Labels | Description                                  |
-|-----------------------------------|--------|----------------------------------------------|
-| `factorio_connected_player_count` |        | Count of currently connected players         |
-| `factorio_total_player_count`     |        | Count of all players who were ever connected |
+Per-player metrics (those with `name` label) are disabled by default and can be enabled in the settings (uncheck "Disable per player stats").
+
+| Name                               | Labels        | Description                                       |
+|------------------------------------|---------------|---------------------------------------------------|
+| `factorio_connected_player_count`  |               | Count of currently connected players              |
+| `factorio_total_player_count`      |               | Count of all players who were ever connected      |
+| `factorio_player_connected`        | name          | 1 if the player is currently connected            |
+| `factorio_player_last_online`      | name          | Last tick the player was connected                |
+| `factorio_player_time_online`      | name          | Time (in seconds) the player spent online         |
+| `factorio_player_position_x`       | name          | The x coordinate of the player's (last) position  |
+| `factorio_player_position_y`       | name          | The y coordinate of the player's (last) position  |
+| `factorio_player_position_surface` | name, surface | 1 for the surface of the player's (last) position |
 
 ### Production
 
