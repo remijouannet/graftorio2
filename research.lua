@@ -1,7 +1,7 @@
 function on_research_finished(event)
 	local research = event.research
-	if not global.last_research then
-		global.last_research = {}
+	if not storage.last_research then
+		storage.last_research = {}
 	end
 
 	local level = research.level
@@ -10,7 +10,7 @@ function on_research_finished(event)
 		level = level - 1
 	end
 
-	global.last_research[research.force.name] = {
+	storage.last_research[research.force.name] = {
 		researched = 1,
 		name = research.name,
 		level = level,
@@ -21,7 +21,7 @@ function on_research_tick(player, event)
 	if event.tick then
 		gauge_research_queue:reset()
 
-		local researched_queue = global.last_research and global.last_research["player.force.name"] or false
+		local researched_queue = storage.last_research and storage.last_research["player.force.name"] or false
 		if researched_queue then
 			gauge_research_queue:set(
 				researched_queue.researched and 1 or 0,

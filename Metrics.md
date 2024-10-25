@@ -88,12 +88,12 @@ Histogram bucket sizes can also be adjusted in the settings.
 
 | Name                                                      | Labels                                             | Description                                                          |
 |-----------------------------------------------------------|----------------------------------------------------|----------------------------------------------------------------------|
-| `factorio_logistic_network_all_construction_robots`       | force<br/>location (=surface)<br/>network          | Total number of construction robots in the network                   |
-| `factorio_logistic_network_available_construction_robots` | force<br/>location (=surface)<br/>network          | Number of construction robots in the network available for a new job |
-| `factorio_logistic_network_all_logistic_robots`           | force<br/>location (=surface)<br/>network          | Total number of construction robots in the network                   |
-| `factorio_logistic_network_available_logistic_robots`     | force<br/>location (=surface)<br/>network          | Number of construction robots in the network available for a new job |
-| `factorio_logistic_network_robot_limit`                   | force<br/>location (=surface)<br/>network          | Maximum number of robot the network can work with                    |
-| `factorio_logistic_network_items`                         | force<br/>location (=surface)<br/>network<br/>name | Number of item `name` in the network                                 |
+| `factorio_logistic_network_all_construction_robots`       | force<br/>surface<br/>network          | Total number of construction robots in the network                   |
+| `factorio_logistic_network_available_construction_robots` | force<br/>surface<br/>network          | Number of construction robots in the network available for a new job |
+| `factorio_logistic_network_all_logistic_robots`           | force<br/>surface<br/>network          | Total number of construction robots in the network                   |
+| `factorio_logistic_network_available_logistic_robots`     | force<br/>surface<br/>network          | Number of construction robots in the network available for a new job |
+| `factorio_logistic_network_robot_limit`                   | force<br/>surface<br/>network          | Maximum number of robot the network can work with                    |
+| `factorio_logistic_network_items`                         | force<br/>surface<br/>network<br/>name | Number of item `name` in the network                                 |
 
 
 ### Other
